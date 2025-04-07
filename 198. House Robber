@@ -1,0 +1,44 @@
+//INTUITION
+
+//the first thing that comes to mind is oddsum and even sum
+//but that doesn't yield max amount
+//eg:[10,1,2,15]
+
+//even sum = [10,2] = 12
+//odd sum  = [1,15] = 16
+
+// but if we choose [10,15] = 25 //maximum we can rob
+
+//so the condition in the ques is we can't rob 2 adjacent houses
+//but its not necessarily mean we have to rob two alternate houses
+//whatever we choose shouldn't be adjancent that's that.
+
+            
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+         
+        int dp[401];
+        memset(dp,-1,sizeof(dp));
+
+        if(nums.size()==0) return 0;
+        if(nums.size()==1) return nums[0];
+
+        dp[0] = nums[0];
+        dp[1] = max(nums[0],nums[1]);
+
+        for(int i=2;i<nums.size();i++)
+        // if we take this - we cant take prev ind
+        // if we dont take this idx - we can take prev idx
+         dp[i] = max(dp[i-1], nums[i] + dp[i-2]);
+ 
+         return dp[nums.size()-1];
+
+        
+    }
+};
+
+
+// here the prblm is we cant take eeven and odd indexes
+// because i can choose to take or leave some house
+
