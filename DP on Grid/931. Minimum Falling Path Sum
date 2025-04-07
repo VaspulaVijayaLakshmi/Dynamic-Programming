@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& A) {
+       
+        int r = A.size();
+        int c = A[0].size();
+
+        for(int i=1;i<r;i++){
+            for(int j=0;j<c;j++){
+
+               A[i][j] = A[i][j] + min( A[i-1][j],  min(j==0 ? INT_MAX : A[i-1][j-1]  , j==c-1 ?  INT_MAX : A[i-1][j+1]));
+
+            }
+        }
+
+
+        int minSum = INT_MAX;
+        for(int i=0;i<c;i++)
+          minSum= min(minSum, A[r-1][i]);
+
+        return minSum;  
+
+    }
+};
