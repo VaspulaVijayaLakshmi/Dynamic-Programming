@@ -1,0 +1,79 @@
+
+
+Notes: 
+
+
+Given an array of distinct integers nums and a target integer target, return the number of possible ordered combinations that add up to target.
+
+Why take/don't-take logic doesn't work:
+The take/don't-take pattern (common in 0/1 knapsack or subset sum problems) works when:
+
+The order of elements doesn't matter.
+You're choosing each item at most once (or infinitely if it's unbounded).
+
+But in Combination Sum IV, the order of elements matters
+
+nums = {1, 2, 3}, target = 4
+Valid combinations:
+
+1 + 1 + 1 + 1
+
+1 + 1 + 2
+
+1 + 2 + 1
+
+2 + 1 + 1
+
+2 + 2
+
+1 + 3
+
+3 + 1
+
+
+int take = dfs(idx, target - nums[idx]); // stay on idx (reuse)
+int dontTake = dfs(idx + 1, target);     // skip current
+
+
+
+
+You eliminate many permutations, because you’re forcing an ordered traversal (like subset logic), 
+but the problem wants to try all numbers at every level.
+
+
+
+
+
+the problem explicitly counts different orders of the same set of numbers as distinct solutions.
+
+All of these are different permutations, even though some use the same numbers in a different order.
+
+So, [1, 2, 1] and [1, 1, 2] are treated as distinct.
+
+
+
+
+
+
+
+Compare with "Combinations" problems (where order doesn’t matter):
+In problems like Coin Change (Leetcode 518), the same values in different order would not be counted multiple times:
+
+[1,2,1]
+
+[1,1,2]
+
+[2,1,1]
+
+would all be treated as the same combination → counted once.
+
+
+
+
+
+
+
+💡 Analogy:
+Problem	Order Matters?	Example
+Combination Sum IV (LC 377)	✅ Yes	[1,2,1] ≠ [2,1,1]
+Coin Change II (LC 518)	❌ No	[1,2,1] = [2,1,1] = [1,1,2]
