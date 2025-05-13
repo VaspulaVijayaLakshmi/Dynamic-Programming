@@ -1,0 +1,65 @@
+class Solution {
+public:
+    int numTrees(int n) {
+          
+        if(n<2) return n;
+
+        vector<int> dp(n+1,0);
+
+        dp[0]=1;
+        dp[1]=1;
+
+        for(int i=2;i<=n;i++){
+
+            int sum=0;
+            for(int root=1; root<=i ; root++){
+                 
+                int left  = dp[root-1]; 
+                int right = dp[i-root];
+ 
+                sum += left*right;
+            }
+           
+           dp[i] =sum;
+
+
+        }
+
+        return dp[n];
+    }
+};
+
+
+// With 1 node - 1 tree
+
+// 2 node -   1 -left , right null
+//            1 - right , left null
+
+
+//            so this could be done - with each node being root
+
+//            so 2 nodes - 2 roots - and with each rot we have 2 poosibilities
+//            that means 4
+
+
+//            1     1       2           2
+//           /       \       \         /
+//          2         2       1        1
+
+
+
+// But with BST  - we have 2 BST - (2) and (4) structures
+
+
+
+
+// 3 nodes - we can have combinations -   take 1 as root - 2 nodes(2,3) will be on right - and NO of ways to arrange 2 nodes - 2
+                                        //   take 2 as root - 1 node left (1) and other right - (3) - 1 way
+                                        //   take 3 as root - 2 nodes left - (1,2) -  2ways 
+
+
+
+// n=3
+// so for i=1 - left[0] * right[2] - 2
+//        i=2 - left[1] * right[1] -> 1
+//        i=3 - left[2] * right[0] - 2
