@@ -1,0 +1,101 @@
+class Solution {
+public:
+    int maxSum=INT_MIN;
+
+    int maxPathSums(TreeNode* root){
+
+        if(root==NULL) return 0;
+
+        int lsum = maxPathSums(root->left);
+        int rsum = maxPathSums(root->right);
+        
+        if(lsum<0) lsum=0;
+        if(rsum<0) rsum=0;
+        
+
+        maxSum = max(maxSum, root->val+lsum+rsum);
+
+        return root->val + max(lsum,rsum);
+    }
+
+
+
+
+    int maxPathSum(TreeNode* root) {
+
+        maxPathSums(root);
+        return maxSum;
+        
+    }
+};
+
+
+// max(LST , RST , INCLUDE - ROOT+LEFT+RIGHT)
+
+// The path may not end at leaf only
+
+//              20 
+//             /  \
+//         30        40
+//         /        /  \
+//     50       -15      -18  
+
+// so  the max path can be  50-30-20-40
+
+// so i need information of 
+
+// left subtreesum, right subtree sum, if i consider root
+
+// for 40 -> I need info of ( Lsubsum = -15 ,
+//                             RsubSum = -18,
+//                             lsum+rsum+root (40 + (-15) + (-18)) , 
+//                             only root 40 )
+
+// so what we did was (        Lsubsum = -15 ,
+//                             RsubSum = -18,
+//                             lsum+rsum+root (40 + (-15) + (-18)) , 
+//                             only root 40 + (0) + (0) )
+
+
+
+
+
+
+
+
+memo
+
+
+class Solution {
+public:
+    int maxSum=INT_MIN;
+    unordered_map<TreeNode*, int> dp;
+
+    int maxPathSums(TreeNode* root){
+
+        if(root==NULL) return 0;
+
+        if(dp.find(root) != dp.end()) return dp[root];
+
+        int lsum = maxPathSums(root->left);
+        int rsum = maxPathSums(root->right);
+        
+        if(lsum<0) lsum=0;
+        if(rsum<0) rsum=0;
+        
+
+        maxSum = max(maxSum, root->val+lsum+rsum);
+
+        return dp[root] = root->val + max(lsum,rsum);
+    }
+
+
+
+
+    int maxPathSum(TreeNode* root) {
+
+        maxPathSums(root);
+        return maxSum;
+        
+    }
+};
