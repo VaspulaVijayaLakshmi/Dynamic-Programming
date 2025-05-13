@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int rob(TreeNode* root) {
+
+        if(root==NULL) return 0;
+
+        int dontRobRoot = rob(root->left) + rob(root->right);
+        
+        // take root
+        int robRoot = root->val;
+
+// then u can skip the left child and make sub calls to left child left child and right child
+        if(root->left)  robRoot+= rob(root->left->left) + rob(root->left->right);
+  
+// u can skip right child and make sub calls to right childs left child and right child  
+        if(root->right) robRoot+= rob(root->right->left) + rob(root->right->right);
+
+        return max(dontRobRoot,robRoot);
+        
+    }
+};
+
+
+
+// I have 2 options at each node.
+
+// If I dont take root 
+
+// include 2 children.
+
+
+
+
+
+
+// I have taken root.
+
+// NoW If i take node , then take node->left->left
+//     if i dont take , then node->left..
+
+
+//     SImilarly do for left substree and rsubtree
