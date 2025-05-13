@@ -1,0 +1,32 @@
+class Solution {
+public:
+vector<vector<int>> dp;
+
+ int coinChange(vector<int> & coins, int amount, int idx){
+
+   if(amount==0) return 1;
+
+   if(amount<0 || idx>=coins.size()) return 0;
+
+   if(dp[idx][amount] != -1) return dp[idx][amount];
+
+   int dontTake = coinChange(coins,amount,idx+1);
+   int take = 0;
+
+   if(coins[idx]<=amount)  
+     take = coinChange(coins,amount-coins[idx],idx);
+
+   return dp[idx][amount] = take+dontTake;
+
+
+}
+
+
+
+    int change(int amount, vector<int>& coins) {
+
+       dp.assign(coins.size(), vector<int>(amount + 1, -1));
+       return coinChange(coins,  amount, 0);
+        
+    }
+};
