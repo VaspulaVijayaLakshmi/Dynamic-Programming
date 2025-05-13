@@ -1,0 +1,115 @@
+class Solution {
+public:
+
+   pair<int,int> countOnesAndZeroes(string s){
+      int z=0,o=0;
+
+      for(int i=0;i<s.length();i++){
+        if(s[i]=='0') z++;
+        if(s[i]=='1') o++;
+      }
+      
+      return {z,o};
+
+   }
+    
+    int findMaxForm(vector<string>& strs, int m, int n,int idx) {
+
+//    if m==0 || n==0 we should not quit, let ssay m=0 but n!=0, so there may be
+// sring s like "11", "111"....where we only need more 1st now
+
+     if(idx>=strs.size() || (m==0 && n==0)) return 0;
+
+     int dontTake = findMaxForm(strs,m,n,idx+1);
+
+     int take= 0;
+     pair<int,int> p = countOnesAndZeroes(strs[idx]);
+     if(p.first<=m && p.second<=n){
+       take = 1+findMaxForm(strs,m-p.first,n-p.second,idx+1);
+     }   
+
+     return max(dontTake , take);
+        
+    } 
+
+    
+    int findMaxForm(vector<string>& strs, int m, int n) {
+         return findMaxForm(strs,m,n,0);
+        
+    }
+};
+
+
+
+
+// here also im thinking of take , dont take, 
+// if we skip increment the index
+
+
+// if we take :
+// check if the nos of zeroes and ones doesnt exceed the no of n,m
+// if they are less then take it
+
+
+
+
+
+
+
+
+
+
+MEMO
+
+
+
+class Solution {
+public:
+
+  int dp[601][101][101];
+
+   pair<int,int> countOnesAndZeroes(string s){
+      int z=0,o=0;
+
+      for(int i=0;i<s.length();i++){
+        if(s[i]=='0') z++;
+        if(s[i]=='1') o++;
+      }
+      
+      return {z,o};
+
+   }
+    
+    int findMaxForm(vector<string>& strs, int m, int n,int idx) {
+
+//    if m==0 || n==0 we should not quit, let ssay m=0 but n!=0, so there may be
+// sring s like "11", "111"....where we only need more 1st now
+
+     if(idx>=strs.size() || (m==0 && n==0)) return 0;
+
+     if(dp[idx][m][n]!=-1) return dp[idx][m][n];
+
+     int dontTake = findMaxForm(strs,m,n,idx+1);
+
+     int take= 0;
+     pair<int,int> p = countOnesAndZeroes(strs[idx]);
+     if(p.first<=m && p.second<=n){
+       take = 1+findMaxForm(strs,m-p.first,n-p.second,idx+1);
+     }   
+
+     return dp[idx][m][n] = max(dontTake , take);
+        
+    } 
+
+    
+    int findMaxForm(vector<string>& strs, int m, int n) {
+
+        // it would be 3D dp,
+        // idx, m and n
+
+        memset(dp,-1,sizeof(dp));
+         return findMaxForm(strs,m,n,0);
+        
+    }
+};
+
