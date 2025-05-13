@@ -40,3 +40,38 @@ public:
 
 
 //     SImilarly do for left substree and rsubtree
+
+
+
+
+
+//MEMOIZATION
+
+
+class Solution {
+public:
+
+unordered_map<TreeNode*, int> dp;
+    int rob(TreeNode* root) {
+
+        if(root==NULL) return 0;
+
+        if(dp.find(root) != dp.end()) return dp[root];
+
+
+        int dontRobRoot = rob(root->left) + rob(root->right);
+        
+        // take root
+        int robRoot = root->val;
+
+// then u can skip the left child and make sub calls to left child left child and right child
+        if(root->left)  robRoot+= rob(root->left->left) + rob(root->left->right);
+  
+// u can skip right child and make sub calls to right childs left child and right child  
+        if(root->right) robRoot+= rob(root->right->left) + rob(root->right->right);
+
+        return dp[root]=max(dontRobRoot,robRoot);
+        
+    }
+};
+
