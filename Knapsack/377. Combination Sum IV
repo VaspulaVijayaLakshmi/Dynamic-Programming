@@ -1,0 +1,65 @@
+recursion
+
+
+
+combination 4 prblm cannot be solved with take/dont take because here at every index we can pick any index in any order...
+in coin cnahe take/dont take logic we skip to the next indx, if we dont take tht elemnt.
+
+
+
+SEE notes in this repo...youll understand better
+
+
+class Solution {
+public:
+
+    int combinationSum4(vector<int>& nums, int target) {
+       if(target==0) return 1;
+
+        int combinations=0;
+        for(int i=0;i<nums.size();i++){
+
+            if(nums[i]<=target)
+             combinations+=combinationSum4(nums,target-nums[i]);
+        }
+
+        return combinations;
+    }
+};
+
+
+
+
+
+
+//memo
+
+
+class Solution {
+public:
+  vector<int> dp;
+   int CS4(vector<int>& nums, int target) {
+        
+        if(target==0) return 1;
+
+        if(dp[target] != -1) return dp[target];
+
+        int combinations=0;
+        for(int i=0;i<nums.size();i++){
+
+            if(nums[i]<=target)
+             combinations+=CS4(nums,target-nums[i]);
+        }
+
+        return dp[target] = combinations;
+    }
+
+
+    int combinationSum4(vector<int>& nums, int target) {
+
+        int n = nums.size();
+         dp.resize(target+1,-1);
+
+        return CS4(nums,target);
+    }
+};
