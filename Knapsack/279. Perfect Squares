@@ -1,0 +1,112 @@
+class Solution {
+public:
+
+    vector<int> sq;
+
+    int coinChange(int idx,int n){
+
+        if(n==0) return 0;
+
+        if(n<0 || idx>= sq.size()) return INT_MAX;
+
+        int dontTake = coinChange(idx+1,n);
+
+        int take=INT_MAX;
+        if(sq[idx]<=n){
+        // if we take, we can take again
+        int res = coinChange(idx, n-sq[idx]);
+        if(res!=INT_MAX)  take = 1+res;    
+        }
+
+        return min(take,dontTake);
+
+    }
+
+
+    int numSquares(int n) {
+
+    for (int i = 1; i * i <= 10000; ++i) {
+         sq.push_back(i * i);
+    }
+
+       int result = coinChange(0, n);
+        return result == INT_MAX ? -1 : result;
+
+
+        
+    }
+};
+
+
+
+
+
+
+
+// It is similar to coin change problem. just put all the perfect squares less
+// than or equal to n in a vector and now its the same problem as the coin change, 
+// You are given an integer array coins representing coins of different 
+// denominations and an integer amount representing a total amount of money.
+// , You may assume that you have an infinite number of each kind of coin.
+
+
+// perfect suares are - 1, 4, 9 16 , 25....... SO we can store this in an array.
+
+
+// Least No.of Coins - 
+
+
+
+
+
+
+
+MEMO
+
+
+class Solution {
+public:
+
+    vector<int> sq;
+    vector<int> dp;
+
+    int coinChange(int idx,int n){
+
+        if(n==0) return 0;
+
+        if(n<0 || idx>= sq.size()) return INT_MAX;
+
+        if(dp[n] != -1 ) return dp[n];
+
+        int dontTake = coinChange(idx+1,n);
+
+        int take=INT_MAX;
+        if(sq[idx]<=n){
+        // if we take, we can take again
+        int res = coinChange(idx, n-sq[idx]);
+        if(res!=INT_MAX)  take = 1+res;    
+        }
+
+        return dp[n] = min(take,dontTake);
+
+    }
+
+
+    int numSquares(int n) {
+
+    for (int i = 1; i * i <= 10000; ++i) {
+         sq.push_back(i * i);
+    }
+
+    dp.resize(n+1,-1);
+
+    int result = coinChange(0, n);
+    return result == INT_MAX ? -1 : result;
+
+
+        
+    }
+};
+
+
+
