@@ -77,3 +77,74 @@ would all be treated as the same combination → counted once.
 Problem	Order Matters?	Example
 Combination Sum IV (LC 377)	✅ Yes	[1,2,1] ≠ [2,1,1]
 Coin Change II (LC 518)	❌ No	[1,2,1] = [2,1,1] = [1,1,2]
+
+
+
+
+_______________________________________________________________
+_______________________________________________________________
+
+
+
+
+Choosing between a 1D or 2D DP array depends on how many changing parameters your recursive function has that influence the 
+result and need to be memoized.
+
+
+
+General Rule:
+Each parameter in the recursion that affects the outcome independently should be a dimension in your DP table.
+
+
+
+1D DP is Enough When:
+You have only one changing parameter that determines the state.
+
+Example: Fibonacci sequence, climbing stairs
+
+
+
+
+
+2D DP is Needed When:
+You have two parameters that independently affect the decision-making in the recursion.
+
+Example: LIS with idx and prev, LCS (Longest Common Subsequence) with i and j.
+
+
+idx: Current index we're at in the array.
+
+prev: The value (or index) of the previously picked number.
+
+Since prev affects whether you can take nums[idx] or not, you must include it in memoization. But because prev is a value, 
+you can't memoize directly on values unless they are bounded and small. So we use the index of prev, which gives us a fixed \
+range.
+
+
+
+
+
+
+3D DP:
+
+Palindrome Partitioning (K partitions)
+Problem: Min cuts to divide string into k palindromes.
+
+Function: f(start, end, k) = min cuts for substring s[start..end] with k parts.
+
+Varies by start, end, and k → 3D DP.
+
+dp[start][end][k]
+
+
+
+
+
+
+
+
+
+
+
+
+
