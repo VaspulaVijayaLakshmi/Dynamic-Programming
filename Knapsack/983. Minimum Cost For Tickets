@@ -1,0 +1,98 @@
+class Solution {
+public:
+
+   int mincostTickets(vector<int>& days, vector<int>& cost,unordered_set<int> &st,int day) {
+
+    if(day>365) return 0;
+
+    if(st.find(day) == st.end())
+    // if array doesnt contain the current day, then move to next day
+    // this way we are restricting  buying tickets only on the days that are present in array
+
+    // check the next day
+        return mincostTickets(days,cost,st,day+1);
+    
+
+
+       int dayTicket   = cost[0]+mincostTickets(days,cost,st,day+1);
+       int weekTicket  = cost[1]+mincostTickets(days,cost,st,day+7);
+       int monthTicket = cost[2]+mincostTickets(days,cost,st,day+30);
+  
+      return min({dayTicket,weekTicket,monthTicket});
+}
+  
+
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+
+        unordered_set<int> st(days.begin(),days.end());
+        return mincostTickets(days,costs,st,0);
+        
+    }
+};
+
+
+
+// min cost
+
+// we can get max tickets also but at min cost
+
+// so at each point -  i have 3 options
+
+// if our array is sorted , we need to cover - Day strt - Day end
+
+
+// for each day we have 3 options - take either of the passes and see if we reached the last day in array
+// if yes, tht means take min cost  at that points and continue
+
+
+
+
+// https://leetcode.com/problems/minimum-cost-for-tickets/solutions/6207465/simplest-solution-ever-beat-100-recursion-memoization/?envType=study-plan-v2&envId=dynamic-programming
+
+
+
+
+
+
+
+
+
+MEMO
+
+
+
+class Solution {
+public:
+
+   vector<int> dp;
+
+   int mincostTickets(vector<int>& days, vector<int>& cost,unordered_set<int> &st,int day) {
+
+    if(day>365) return 0;
+
+    if(dp[day] != -1) return dp[day];
+
+    if(st.find(day) == st.end())
+    // if array doesnt contain the current day, then move to next day
+    // this way we are restricting  buying tickets only on the days that are present in array
+
+    // check the next day
+        return dp[day] = mincostTickets(days,cost,st,day+1);
+    
+       int dayTicket   = cost[0]+mincostTickets(days,cost,st,day+1);
+       int weekTicket  = cost[1]+mincostTickets(days,cost,st,day+7);
+       int monthTicket = cost[2]+mincostTickets(days,cost,st,day+30);
+  
+      return dp[day] = min({dayTicket,weekTicket,monthTicket});
+}
+  
+
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+
+        dp.resize(366,-1);
+
+        unordered_set<int> st(days.begin(),days.end());
+        return mincostTickets(days,costs,st,0);
+        
+    }
+};
