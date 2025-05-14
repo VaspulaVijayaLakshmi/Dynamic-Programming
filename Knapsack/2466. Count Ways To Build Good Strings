@@ -1,0 +1,173 @@
+class Solution {
+public:
+
+    int count=0;
+
+    void CGS(int low, int high, int zero, int one,int strLen) {
+
+        if(strLen>high) return ;
+
+        // if strLen ==low and strLen >low && < high
+        // once the strLen hits - low, we should increment the count
+        // but should not return , cause we need to explore strs further whose length 
+        // is between low and high 
+
+
+        // so if its low between low and high - we increment global counter.
+        if(strLen>=low && strLen<=high) 
+          count++;
+
+       if(strLen+zero<=high) 
+        CGS(low,high,zero,one,strLen+zero);
+
+
+       if(strLen+one<=high) 
+        CGS(low,high,zero,one,strLen+one);
+        
+    }
+
+
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+        CGS(low,high,zero,one,0);
+        return count;
+    }
+};
+
+
+// return count - 
+
+// at each step: 
+// append zeros - check if its b/w. low and high
+// append ones - check if its b/w low and high
+
+
+// recursion call - append zeroes - call - fun
+// append one call - fun
+
+
+
+
+
+Memo 
+
+
+//////////MLE 
+
+
+
+
+class Solution {
+public:
+
+    vector<int> dp;
+    int MOD = 1e9+7;
+
+    int CGS(int maxstrLen, int zero, int one,int strLen) {
+
+        if(strLen>maxstrLen) return 0;
+
+        if(strLen==maxstrLen) return 1;
+
+        if(dp[strLen] !=-1) return dp[strLen];
+       
+       int appendZeroes =0, appendOnes=0;
+
+       if(strLen+zero<=maxstrLen) 
+        appendZeroes=CGS(maxstrLen,zero,one,strLen+zero);
+
+
+       if(strLen+one<=maxstrLen) 
+        appendOnes=CGS(maxstrLen,zero,one,strLen+one);
+
+        return dp[strLen] = (appendOnes + appendZeroes)%MOD;
+        
+    }
+
+
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+
+        int ways=0;
+        for(int i=low;i<=high;i++){
+            // This sol gives MLE , because DP is assign MUltiple times
+            dp.assign(i+1, -1);
+            ways = (ways + CGS(i,zero,one,0))%MOD;
+        }
+
+        return ways;
+    }
+};
+
+
+
+
+
+
+class Solution {
+public:
+
+    vector<int> dp;
+    int MOD = 1e9+7;
+
+        int CGS(int low, int high, int zero, int one,int strLen) {
+
+        if(strLen>high) return 0;
+
+        if(dp[strLen] !=-1) return dp[strLen];
+
+        int got=0;
+        if(strLen>=low && strLen<=high) 
+          got++;
+          
+
+        int appendZeroes =0, appendOnes=0;  
+
+       if(strLen+zero<=high) 
+        appendZeroes = CGS(low,high,zero,one,strLen+zero);
+
+
+       if(strLen+one<=high) 
+        appendOnes = CGS(low,high,zero,one,strLen+one);
+
+        return dp[strLen] = (appendZeroes + appendOnes + got)%MOD;
+        
+    }
+
+
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+
+        dp.assign(high + 1, -1); 
+        return CGS(low,high,zero,one,0);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tabular DP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
