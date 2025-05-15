@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    int findLongestChain(vector<vector<int>>& pairs,int idx,int prevIdx) {
+
+        if(idx==pairs.size()) return 0;
+
+        int dontTake = findLongestChain(pairs,idx+1,prevIdx);
+
+        int take=0;
+        if(prevIdx==-1 || pairs[idx][0] > pairs[prevIdx][1]){
+          take = 1+findLongestChain(pairs,idx+1,idx);
+        }
+
+        return max(take,dontTake);
+        
+    }
+
+    int findLongestChain(vector<vector<int>>& pairs) {
+
+        sort(pairs.begin(),pairs.end());
+
+       return findLongestChain(pairs,0,-1);
+        
+    }
+};
