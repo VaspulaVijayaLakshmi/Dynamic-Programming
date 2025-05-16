@@ -1,3 +1,6 @@
+MLE
+
+
 class Solution {
 public:
     vector<vector<int>> dp;
@@ -27,3 +30,95 @@ public:
         
     }
 };
+
+
+
+
+
+
+TLE 
+
+class Solution {
+public:
+    vector<int> dp;
+
+    int longestSubsequence(vector<int>& arr, int diff) {
+       
+       int n=arr.size();
+       int maxi=1;
+       dp.assign(n,1);
+
+       for(int i=1;i<n;i++){
+
+        for(int j=i-1;j>=0;j--){
+
+            if(arr[i] - arr[j] == diff)
+             dp[i] = max(dp[i], 1+dp[j]);
+        }
+
+        maxi = max(maxi,dp[i]);
+
+       }
+       return maxi;
+        
+    }
+};
+
+
+
+
+
+
+
+
+use unordered_map 
+
+
+
+class Solution {
+public:
+    vector<int> dp;
+
+    int longestSubsequence(vector<int>& arr, int difference) {
+       
+      int n = arr.size();
+      unordered_map<int, int> dp; // Stores the maximum length at each index
+        
+        int ans = 1; // Initialize with the minimum length of 1
+        
+        for (int i = 0; i < n; i++) {
+            int num = arr[i];
+
+            if (dp.find(num - difference) != dp.end()) 
+                dp[num] = dp[num - difference] + 1;
+
+            
+            else 
+                dp[num] = 1;
+            
+            
+            ans = max(ans, dp[num]);
+        }
+        
+        return ans;
+    }
+};
+
+
+
+// this runs nto tle as we are iterating array over and over again
+
+// AP
+// currnum -  prevnum = diff
+
+// (knows)
+// currnum-diff = prevNum,  we saw the diff before, so increment the count
+
+
+
+// Iterate through the array:
+// For each index i from 0 to n-1, do the following:
+// Retrieve the number at the current index: num = arr[i].
+// Check if there exists a number num - difference in the dp map. If it does, it means we can extend the subsequence ending at num - difference by including the current number num. So, we set dp[num] to be dp[num - difference] + 1, indicating that the length of the subsequence ending at num is one greater than the length of the subsequence ending at num - difference.
+// If there is no num - difference in the dp map, it means we have found a new subsequence starting at num. So, we set dp[num] to 1, indicating the start of a new subsequence.
+// Update the ans variable with the maximum length seen so far by comparing ans with dp[num].
