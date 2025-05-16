@@ -1,0 +1,115 @@
+class Solution {
+public:
+    int dp[201][20001];
+
+    bool canPartition(vector<int>& nums,int idx,int sum){
+
+       if(sum==0) return true;
+       if(idx==nums.size()) return false;
+
+       if(dp[idx][sum] != -1) return dp[idx][sum];
+
+       bool dontTake = canPartition(nums,idx+1,sum);
+
+       bool take=false;
+       if(nums[idx] <= sum)
+        take = canPartition(nums,idx+1,sum-nums[idx]);         
+
+        return  dp[idx][sum] = dontTake || take;
+
+    }
+
+
+    int minimumDifference(vector<int>& nums) {
+
+        memset(dp,-1,sizeof(dp));
+
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+         sum += nums[i];
+
+        canPartition(nums,0,sum/2);
+
+        int n=nums.size();
+        int mini=INT_MAX;
+
+        for(int i=0;i<=sum/2;i++){
+
+            if(dp[n-1][i]) {
+                mini = min(mini, abs( (sum-i) - i ));
+            }
+                  
+        }
+
+        return mini;   
+    }
+};
+
+
+
+// MIN diff
+
+
+// Equal subset sum 
+
+// partition array into 2 sets such thats the array diff =0, if possible
+// then ull get min diff.
+
+
+
+ // now once the DP table is build 
+
+
+// nums = [2,1,1,2]    
+// sum =  6
+
+//     0     1   2    3    4   5    6
+
+// []   T    F   F    F    F   F    F
+
+//  2   F    F   T    F    F   F    F
+
+//  1.  F.   T   T    T.   F.   F.  F
+
+//  1.  F.   T.  T.   T.   T.   F.  F
+
+//  2.  F.   T.  T.   T.   T    T.  T
+
+
+
+//  so the last row says - 
+
+//  take all array elements  - and what all sums are possible...
+
+
+//  last row - sum - 1 is poosible
+//             sum - 2
+//             sum - 3
+//             sum - 4  
+//             sum - 5
+//             sum - 6. all sum from 0-6 are possible 
+
+
+
+//            lets say , we have sum - 5 sum- 3 is not possible
+//            so possible sums are - [1,2,4,6]
+
+
+//            so min diff between them 
+
+//               1.   2.   4.   6    - this is one subset sum1
+//               6.   4.   2.   1.   -  this is other subset, since we are partitoning(totalsum -  sum1)
+// ________________________________
+//               5.   2.   2.   5 
+
+
+//               min diff is 2
+
+
+
+
+
+
+#this doesnt work on negative numbers
+
+
