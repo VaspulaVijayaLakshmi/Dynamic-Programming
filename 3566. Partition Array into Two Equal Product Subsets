@@ -1,0 +1,96 @@
+class Solution {
+public:
+    bool solve(int i, ll prod, ll target, vector<int>& nums) {
+        
+        if(prod==target) return true;
+        if(prod>target || i==nums.size()) return false;   
+        
+        return solve(i+1,prod*nums[i],target,nums) ||
+         solve(i+1,prod,target,nums);
+
+    }
+
+
+
+    bool checkEqualPartitions(vector<int>& nums, long long target) {
+
+        int n=nums.size();
+        ll total=1;
+
+        for(int num:nums){
+            total = total*num;
+
+            if(total> (ll)target*target)
+              return false;
+        }
+
+        if (total != (ll)target * target) return false;
+
+        return solve(0,1,target,nums);
+        
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+// Approach 1: Recursive Backtracking
+
+// We compute the total product of all numbers. 
+// If it is not equal to target², we return false. 
+// Then, we recursively try to build a subset whose product is exactly target.
+// If such a subset exists, the remaining elements will automatically multiply
+// to target as well.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+typedef __int128 ll;
+
+class Solution {
+public:
+
+    bool checkEqualPartitions(vector<int>& nums, long long target) {
+
+        int n=nums.size();
+        ll total=1;
+
+        for(ll num:nums){
+
+            if(target % (ll)num != 0)
+             return false;
+
+            total = total*num;
+
+            if(total>(ll)target*target)
+             return false;
+
+        }
+
+        if(total != (ll)target*target)
+         return false;
+
+        return true; 
+        
+    }
+};
