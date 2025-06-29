@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int numSubseq(vector<int>& nums, int target) {
+        int mod = 1e9 + 7, n = nums.size();
+        sort(nums.begin(), nums.end());
+
+        vector<int> power(n, 1);
+        for (int i = 1; i < n; ++i) {
+            power[i] = (power[i - 1] * 2) % mod;
+        }
+
+        int left = 0, right = n - 1, result = 0;
+
+        while (left <= right) {
+            if (nums[left] + nums[right] <= target) {
+                result = (result + power[right - left]) % mod;
+                ++left;
+            } else {
+                --right;
+            }
+        }
+        return result;
+    }
+};
+
+
+
+
+// A subsequence is a sequence derived from the array by deleting zero or more elements without changing the order of the remaining elements.
+
+// Example subsequences of [3, 5, 6, 7]:
+
+// [3], [5], [6], [7]
+// [3, 5], [3, 6], [3, 7], [5, 6], [5, 7], [6, 7]
+// [3, 5, 6], [3, 5, 7], [3, 6, 7], [5, 6, 7]
+// [3, 5, 6, 7]
+
+
+// can we sort the array - yes
+
+// [3 5 6 7]
+
+// 3-7 - min+max - (3,7) - 10 , >10 so move right
+// 3-6 - (3,6) - 9 - so we have all these subarrays - 
+//                     [3],[5],[6],[3,5],[3,6],[5,6],[3,5,6], so we have 
+//                     all these subarray, but we have bigger elemnts
+
+
+// Tip: Why is the number of subsequences 2^n?
+
+// Consider the example [3, 5, 6] with target = 9. If we fix the smallest element, which is 3, how many subsequences can we form?
+
+// Since 3 is fixed, we can freely choose whether to include or exclude each of the remaining elements (5 and 6).
+
+// 5 has 2 choices: include or exclude
+// 6 has 2 choices: include or exclude
+// So the total number of subsequences is:
+// 1 (fixed 3) × 2 (choices for 5) × 2 (choices for 6) = 2^2 = 4
+
+
+
+
