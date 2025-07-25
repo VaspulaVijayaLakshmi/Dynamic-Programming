@@ -24,3 +24,36 @@ public:
     }
 };
 
+
+
+MEMO
+
+// TLE
+class Solution {
+public:
+
+    bool canJump(vector<int>& nums, int idx,vector<bool> &dp){
+
+        if(idx>=nums.size()-1)
+         return true;
+
+       if(dp[idx]==true) 
+       return dp[idx];  
+
+       int maxSteps = nums[idx]; 
+       for(int i=1;i<=maxSteps;i++){
+         
+         if(canJump(nums,idx+i,dp))
+          return dp[idx] =  true;
+       }  
+
+       return dp[idx]=false;
+
+    }
+
+
+    bool canJump(vector<int>& nums) {
+        vector<bool> dp(nums.size());
+       return canJump(nums,0,dp);
+    }
+};
