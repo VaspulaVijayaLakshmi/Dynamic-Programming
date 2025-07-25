@@ -57,3 +57,41 @@ public:
        return canJump(nums,0,dp);
     }
 };
+
+
+
+
+
+
+
+
+GREEDY
+
+class Solution {
+public:
+
+    bool canJump(vector<int>& nums) {
+
+        int minJumps=0;
+        for(int i=nums.size()-2;i>=0;i--){
+
+            minJumps++;
+
+            //here we should not return, because 
+            //we may come across some big number in the front, so tht we may not need to jump on this step
+            // if(nums[i]<minJumps)
+            //  return false;
+
+
+// also if we know with the prev number we r able to land on last idx, then we just need to check how we can reach the curr idx, not to end
+            
+            if(nums[i]>=minJumps)
+              minJumps=0;
+
+        }
+
+        return minJumps==0;
+      
+    }
+};
+
