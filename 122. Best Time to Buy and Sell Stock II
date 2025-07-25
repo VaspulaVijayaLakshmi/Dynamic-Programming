@@ -1,0 +1,45 @@
+RECURSION
+
+class Solution {
+public:
+
+    int maxProfit(vector<int>& prices, bool buy,int idx){
+          
+        if(idx>=prices.size())
+           return 0;
+
+        //if  buy is true , then buy it or not buy it
+        if(buy){
+             
+             int b = maxProfit(prices,!buy,idx+1)-prices[idx];
+             int nb = maxProfit(prices,buy,idx+1);
+             
+            return max(b,nb);
+        }
+
+        //if I cant buy, I can sell or not sell,
+        else {
+        
+            int s = maxProfit(prices,!buy,idx+1)+prices[idx];
+            int ns = maxProfit(prices,buy,idx+1);
+
+            return max(s,ns);
+
+        }
+         
+    }
+
+
+    int maxProfit(vector<int>& prices) {
+        
+        bool buy = true;
+        int idx=0;
+        return maxProfit(prices,buy,idx);
+    }
+};
+
+
+// Recursion
+
+// so at each step i have 2 options : buy / sell
+// if I sell, i need to have buy 
