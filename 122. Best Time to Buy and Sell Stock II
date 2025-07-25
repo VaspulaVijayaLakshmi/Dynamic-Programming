@@ -43,3 +43,35 @@ public:
 
 // so at each step i have 2 options : buy / sell
 // if I sell, i need to have buy 
+
+
+
+
+
+We're tracking total profit, and we simulate transactions:
+
+Action          	Effect on Profit
+Buy	          Subtract prices[i] (you spend money)
+Sell	      Add prices[i] (you earn money)
+
+
+
+- prices[i] = you spend this much money to buy the stock
+So you subtract it from total profit
+
+
++ prices[i] = you earn this much money by selling the stock
+So you add it to the total profit
+
+
+Let’s say prices = [1, 3, 2]
+At day 0:
+
+You choose to buy at 1 → profit = -1
+
+At day 1:
+You choose to sell at 3 → profit = +3
+
+
+Final profit: -1 + 3 = 2
+
