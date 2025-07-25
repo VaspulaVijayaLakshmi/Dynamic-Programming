@@ -74,3 +74,40 @@ public:
         
     }
 };
+
+
+
+
+
+
+
+Tabulation
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+
+        int n=nums.size();
+        vector<int> dp(n,INT_MAX);
+
+        // dp[i] stores the min No.of steps to reach the ith step 
+         dp[0] = 0;
+
+         for(int i=0;i<n;i++){
+
+            // min of n because, we need to make sure we are within bounds.
+            int farthestStep = min(n-1,i+nums[i]);
+
+            for(int j=i+1;j<=farthestStep;j++){
+
+                // all the steps from i+1 to farthest, are 1 step 
+                // more than curr idx 'i'
+                dp[j] = min(dp[j],1+dp[i]);
+
+            }
+         }
+
+        return dp[n-1];
+        
+    }
+};
