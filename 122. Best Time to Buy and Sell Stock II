@@ -75,3 +75,53 @@ You choose to sell at 3 → profit = +3
 
 Final profit: -1 + 3 = 2
 
+
+
+
+MEMOIZATION
+
+class Solution {
+public:
+
+    int maxProfit(vector<int>& prices, bool buy,int idx,    vector<vector<int>>& dp){
+          
+        if(idx>=prices.size())
+           return 0;
+
+        if(dp[idx][buy] != -1) return dp[idx][buy];   
+  
+
+        //if  buy is true , then buy it or not buy it
+        if(buy){
+             
+             int b = maxProfit(prices,!buy,idx+1,dp)-prices[idx];
+             int nb = maxProfit(prices,buy,idx+1,dp);
+             
+            dp[idx][buy] =  max(b,nb);
+        }
+
+        //if I cant buy, I can sell or not sell,
+        else {
+        
+            int s = maxProfit(prices,!buy,idx+1,dp)+prices[idx];
+            int ns = maxProfit(prices,buy,idx+1,dp);
+
+            dp[idx][buy] =  max(s,ns);
+
+        }
+
+        return dp[idx][buy];         
+    }
+
+
+    int maxProfit(vector<int>& prices) {
+        
+        bool buy = true;
+        int idx=0;
+        vector<vector<int>> dp(prices.size(), vector<int>(2, -1));
+        return maxProfit(prices,buy,idx,dp);
+    }
+};
+
+
+
