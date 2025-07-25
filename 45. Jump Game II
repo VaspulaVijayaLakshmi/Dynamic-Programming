@@ -1,0 +1,32 @@
+class Solution {
+public:
+
+    int canJump(vector<int>& nums,int idx){
+
+        if(idx>=nums.size()-1)
+         return 0;
+
+        int farthestStep=idx+nums[idx];
+        int minJumps=INT_MAX;
+
+         for(int i=idx+1;i<=farthestStep;i++){
+            
+            int subJump = canJump(nums, i);
+
+            if (subJump != INT_MAX) {
+                minJumps = min(minJumps, 1 + subJump); 
+            }
+            
+         }
+
+         return minJumps;
+
+    }
+
+
+    int jump(vector<int>& nums) {
+
+        return canJump(nums,0);
+        
+    }
+};
