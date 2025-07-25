@@ -1,0 +1,26 @@
+// TLE
+class Solution {
+public:
+
+    bool canJump(vector<int>& nums, int idx){
+
+        if(idx>=nums.size()-1)
+         return true;
+
+       int maxSteps = nums[idx]; 
+       for(int i=1;i<=maxSteps;i++){
+         
+         if(canJump(nums,idx+i))
+          return true;
+       }  
+
+       return false;
+
+    }
+
+
+    bool canJump(vector<int>& nums) {
+       return canJump(nums,0);
+    }
+};
+
