@@ -31,3 +31,27 @@ public:
 
 // alternate Sum - (+/-)
 // Subsequnce - (pick/dont pick)
+
+
+____________________
+
+
+class Solution {
+public:
+    long long dp[100001][2]; // [index][sign:0->+,1->-]
+
+    long long solve(vector<int>& nums, int idx, int sign) {
+        if (idx >= nums.size()) return 0;
+        if (dp[idx][sign != 1] != -1) return dp[idx][sign != 1];
+
+        long long dontPick = solve(nums, idx+1, sign);
+        long long pick = (long long)nums[idx]*sign + solve(nums, idx+1, -sign);
+
+        return dp[idx][sign != 1] = max(pick, dontPick);
+    }
+
+    long long maxAlternatingSum(vector<int>& nums) {
+        memset(dp, -1, sizeof(dp));
+        return solve(nums, 0, +1);
+    }
+};
