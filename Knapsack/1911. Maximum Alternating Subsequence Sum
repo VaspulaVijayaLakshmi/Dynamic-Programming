@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+    long long maxAlternatingSum(vector<int>& nums,int idx, int sign){
+
+        if(idx>=nums.size())
+         return 0;
+
+        //dont pick
+        //i didnt pick so sign continues
+        long long dontPick = maxAlternatingSum(nums,idx+1,sign);
+       
+        //pick
+        long long pick = nums[idx]*sign + maxAlternatingSum(nums,idx+1,sign*-1);
+
+        return max(pick,dontPick); 
+    }
+
+
+
+    long long maxAlternatingSum(vector<int>& nums) {
+
+        int idx=0;
+        return max(
+          maxAlternatingSum(nums, idx,1),
+          maxAlternatingSum(nums,idx,-1)
+        );
+        
+    }
+};
+
+// alternate Sum - (+/-)
+// Subsequnce - (pick/dont pick)
