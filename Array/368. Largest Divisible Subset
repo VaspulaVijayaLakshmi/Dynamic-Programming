@@ -41,3 +41,45 @@ public:
 // to pick - condition shoud be nums[i]%nums[j]==0 || nums[j]%nums[i]==0
 
 // largest subset.
+
+
+_________________________________
+
+
+class Solution {
+public:
+    bool checkPredecessor(string &iStr,string &jStr){
+        if(iStr.length()!=jStr.length()+1) return false;
+
+        int m=iStr.length(),n=jStr.length();
+        int i=0,j=0;
+
+        while(i<m && j<n){
+            if(iStr[i]==jStr[j]) i++,j++;
+            else i++;
+        }
+        return j==n;
+    }
+    int longestStrChain(vector<string>& words) {
+        int n=words.size();
+
+        auto lambda=[](string &a,string &b){
+            return a.length()<b.length();
+        };
+
+        sort(begin(words),end(words),lambda);
+
+        vector<int>dp(n,1);
+        int ans=1;
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(checkPredecessor(words[i],words[j]) && dp[i]<dp[j]+1){
+                    dp[i]=dp[j]+1;
+                    ans=max(ans,dp[i]);
+                }
+            }
+        }
+        return ans;
+    }
+};
