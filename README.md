@@ -17,3 +17,11 @@ https://leetcode.com/problems/minimum-cost-to-cut-a-stick/solutions/780880/dp-wi
 312. Burst Balloons
 1000. Minimum Cost to Merge Stones
 1039. Minimum Score Triangulation of Polygon
+
+
+there are certain prblms  which may seem like dp:
+but dp would be an overkill.
+
+-> 3100. Water Bottles II
+
+here we may have multiple options but until and unless i have empty bottled i dony have much of a choice..
