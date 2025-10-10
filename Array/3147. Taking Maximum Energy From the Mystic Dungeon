@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int maximumEnergy(vector<int>& energy, int k) {
+
+        int n=energy.size();
+        int maxEnergy=INT_MIN;
+        vector<int> dp(n,0);
+
+        for(int i=n-1;i>=0;i--){
+
+            dp[i]=energy[i];
+            
+            //dp[i] reprsents the path u can collect, if u strted at i
+            if(i+k<n)
+            dp[i] += dp[i+k];
+
+            //basically we r dng dp[i]=dp[i+k]+energy[i]
+
+        }
+
+  
+        for(int i=0;i<n;i++){
+            maxEnergy=max(maxEnergy,dp[i]);
+        }
+
+        return maxEnergy;
+        
+    }
+};
+
+
+
+// class Solution {
+// public:
+//     int maximumEnergy(vector<int>& energy, int k) {
+//         int max_energy = INT_MIN;
+//         int n = energy.size();
+        
+//         // Iterate backwards through the array
+//         for (int i = n - 1; i >= 0; --i) {
+//             // If there's a next position in the chain, add its accumulated energy
+//             if (i + k < n) {
+//                 energy[i] += energy[i + k];
+//             }
+//             // Update maximum energy found so far
+//             max_energy = max(max_energy, energy[i]);
+//         }
+//         return max_energy;
+//     }
+// };
+
+
+// energy = [5, 2, -10, -5, 1], k = 3
+
+// Chains:
+// - Chain from index 0: 0 → 3 → end (5 + (-5) = 0)
+// - Chain from index 1: 1 → 4 → end (2 + 1 = 3) ✓ Maximum!
+// - Chain from index 2: 2 → 5 → end (-10)
+// - Chain from index 3: 3 → end (-5)
+// - Chain from index 4: 4 → end (1)
