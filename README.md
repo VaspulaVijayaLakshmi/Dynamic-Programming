@@ -25,3 +25,10 @@ but dp would be an overkill.
 -> 3100. Water Bottles II
 
 here we may have multiple options but until and unless i have empty bottled i dony have much of a choice..
+
+```
+when u use dp... pay attention on how many variable are changing .... 
+ IF 2 varialble are chaning use 2D dp array 
+ IF 3 ... use 3D 
+
+```
