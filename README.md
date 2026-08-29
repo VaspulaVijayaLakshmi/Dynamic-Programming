@@ -42,3 +42,25 @@ when u use dp... pay attention on how many variable are changing ....
  IF 3 ... use 3D 
 
 ```
+
+
+
+
+
+When converting recursion → DP, ask:
+
+What information changes between recursive calls?
+That changing information becomes part of the DP state.
+
+Here your recursive function is:
+
+robHelper(root, parent)
+
+There are two changing inputs:
+
+root → which subtree/node we're at
+parent → whether the parent was robbed
+
+So the DP state is conceptually:
+
+dp[root][parent]
