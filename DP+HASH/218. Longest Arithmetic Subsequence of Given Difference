@@ -146,6 +146,9 @@ public:
 // currnum-diff = prevNum,  we saw the diff before, so increment the count
 
 
+    // mp[7] = longest subsequence ending with value 7
+
+
 
 // Iterate through the array:
 // For each index i from 0 to n-1, do the following:
