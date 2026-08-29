@@ -1,3 +1,111 @@
+Recursion 
+
+class Solution {
+public:
+
+    int ans=0;
+    int LASHelper(vector<int>& arr, int diff,
+    int currIdx,int prevIdx){
+
+        if(currIdx >=arr.size())
+         return 0;
+
+        int dontPick = LASHelper(arr,diff,currIdx+1,prevIdx);
+
+        int pick=0; 
+        if(prevIdx==-1 || 
+           arr[currIdx] - arr[prevIdx] == diff){
+            pick = 1+ LASHelper(arr,diff,currIdx+1,currIdx);
+        }
+
+        return max(pick,dontPick);
+         
+    }
+    
+    int longestSubsequence(vector<int>& arr, int diff) {
+
+       return LASHelper(arr,diff,0,-1);
+       
+    }
+};
+
+// subsequnce
+
+// arr = [1,5,7,8,5,3,4,2,1]
+// difference = -2
+
+// |a-b| = +=K
+
+// I need to track last element as well then .
+
+// /like I pick 1, then i pick or skip 1, difference is not +=k then i cant pick..sonethig like tht...
+// like rev and curr.
+
+// Similar ot LIS
+
+
+__________________________________
+
+
+Memoization
+
+class Solution {
+public:
+
+    vector<vector<int>> dp;
+    int ans=0;
+    int LASHelper(vector<int>& arr, int diff,
+    int currIdx,int prevIdx){
+
+        if(currIdx >=arr.size())
+         return 0;
+
+        if(dp[currIdx][prevIdx+1]!=-1)
+         return dp[currIdx][prevIdx+1]; 
+
+        int dontPick = LASHelper(arr,diff,currIdx+1,prevIdx);
+
+        int pick=0; 
+        if(prevIdx==-1 || 
+           arr[currIdx] - arr[prevIdx] == diff){
+            pick = 1+ LASHelper(arr,diff,currIdx+1,currIdx);
+        }
+
+        return dp[currIdx][prevIdx+1] = max(pick,dontPick);
+         
+    }
+    
+    int longestSubsequence(vector<int>& arr, int diff) {
+
+       dp.resize(arr.size(),vector<int>(arr.size()+1,-1));
+       return LASHelper(arr,diff,0,-1);
+       
+    }
+};
+
+// subsequnce
+
+// arr = [1,5,7,8,5,3,4,2,1]
+// difference = -2
+
+// |a-b| = +=K
+
+// I need to track last element as well then .
+
+// /like I pick 1, then i pick or skip 1, difference is not +=k then i cant pick..sonethig like tht...
+// like rev and curr.
+
+// Similar ot LIS
+
+MLE 
+
+________________
+
+
+
+
+
+
 class Solution {
 public:
     vector<int> dp;
