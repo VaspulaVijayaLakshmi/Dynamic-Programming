@@ -1,77 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int rob(TreeNode* root) {
+    unordered_map<TreeNode*,vector<int>> dp;
+   
+    //node -> 2 size vector
+    // parent -> true
+    // parent-> false
 
-        if(root==NULL) return 0;
+    int robHelper(TreeNode* root,bool parent){
 
-        int dontRobRoot = rob(root->left) + rob(root->right);
+        if(root==NULL)
+         return 0;
+
+         // Create 2 states for this node
+        if(!dp.count(root))
+            dp[root] = vector<int>(2, -1);
+
+        // Already calculated
+        if(dp[root][parent] != -1)
+            return dp[root][parent];
+
+        int donttake = 0 ;
+        donttake= robHelper(root->left,false) +
+                  robHelper(root->right,false);
+
         
-        // take root
-        int robRoot = root->val;
+        int take=0;
+        if(!parent){
 
-// then u can skip the left child and make sub calls to left child left child and right child
-        if(root->left)  robRoot+= rob(root->left->left) + rob(root->left->right);
-  
-// u can skip right child and make sub calls to right childs left child and right child  
-        if(root->right) robRoot+= rob(root->right->left) + rob(root->right->right);
+          take = root->val + robHelper(root->left,!parent)+
+                 robHelper(root->right,!parent);
+        } 
+        
+        return dp[root][parent] = max(donttake,take);
+       
+    } 
 
-        return max(dontRobRoot,robRoot);
+
+    int rob(TreeNode* root) {
+        return robHelper(root,false);
         
     }
 };
 
 
 
-// I have 2 options at each node.
-
-// If I dont take root 
-
-// include 2 children.
+//at each point we have  2 options take or dont take.
 
 
+//if i take parent i cant take children for sure
+//if i skip parent also, i can decide whether or not to take children.upto us.
 
+//how to know if we took parent should we pass, true or false?
 
+//recursion done
 
-
-// I have taken root.
-
-// NoW If i take node , then take node->left->left
-//     if i dont take , then node->left..
-
-
-//     SImilarly do for left substree and rsubtree
-
-
-
-
-
-//MEMOIZATION
-
-
-class Solution {
-public:
-
-unordered_map<TreeNode*, int> dp;
-    int rob(TreeNode* root) {
-
-        if(root==NULL) return 0;
-
-        if(dp.find(root) != dp.end()) return dp[root];
-
-
-        int dontRobRoot = rob(root->left) + rob(root->right);
-        
-        // take root
-        int robRoot = root->val;
-
-// then u can skip the left child and make sub calls to left child left child and right child
-        if(root->left)  robRoot+= rob(root->left->left) + rob(root->left->right);
-  
-// u can skip right child and make sub calls to right childs left child and right child  
-        if(root->right) robRoot+= rob(root->right->left) + rob(root->right->right);
-
-        return dp[root]=max(dontRobRoot,robRoot);
-        
-    }
-};
-
+//now focus on dp
+//dp do we take vector or what
+//we can take root -> max amount so far right
+//but values are repeatable.
