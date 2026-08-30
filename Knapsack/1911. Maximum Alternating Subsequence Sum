@@ -1,33 +1,43 @@
 class Solution {
-public:
+public: 
 
-    long long maxAlternatingSum(vector<int>& nums,int idx, int sign){
+    //let true means plus and false means negative
+    long long MASHelper(vector<int>& nums,int currIdx,bool lastsign){
 
-        if(idx>=nums.size())
+        if(currIdx==nums.size())
          return 0;
 
-        //dont pick
-        //i didnt pick so sign continues
-        long long dontPick = maxAlternatingSum(nums,idx+1,sign);
-       
-        //pick
-        long long pick = nums[idx]*sign + maxAlternatingSum(nums,idx+1,sign*-1);
+        long long dontpick = MASHelper(nums,currIdx+1,lastsign);
 
-        return max(pick,dontPick); 
+        long long pick = 0;
+        if(lastsign==true)
+          pick = -nums[currIdx] + MASHelper(nums,currIdx+1,false);
+
+        else 
+          pick = nums[currIdx] + MASHelper(nums,currIdx+1,true); 
+
+        return max(pick,dontpick); 
+
     }
-
 
 
     long long maxAlternatingSum(vector<int>& nums) {
-
-        int idx=0;
-        return max(
-          maxAlternatingSum(nums, idx,1),
-          maxAlternatingSum(nums,idx,-1)
-        );
-        
+        return MASHelper(nums,0,false);
     }
 };
+
+
+// maximum sum we find when the left is as max as possible and min is as min as possible.
+
+
+// [6,2,1,2,4,5]
+
+// maximum sum subsequnce
+// min sum subsequnce.
+
+// there should not be overlap.
+
+
 
 // alternate Sum - (+/-)
 // Subsequnce - (pick/dont pick)
