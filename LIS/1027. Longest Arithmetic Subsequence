@@ -1,1 +1,86 @@
 
+class Solution {
+public:
+    int longestArithSeqLength(vector<int>& nums) {
+
+        int n = nums.size();
+        int longest=0;
+
+// diff can be negative. For this problem, nums[i] is between 0 and 500, so:
+
+// diff = nums[curr] - nums[prev]
+
+// can range from:
+// -500 ... +500
+
+// actual diff     DP index
+//    -500    →       0
+//    -499    →       1
+//      0     →      500
+//     499    →      999
+//     500    →      1000
+
+// You can't directly use a negative difference as a vector index.
+
+// So we shift it by 500:
+// int diff = nums[curr] - nums[prev] + 500;
+
+// So we shift it by 500:
+// int diff = nums[curr] - nums[prev] + 500;
+
+        vector<vector<int>> 
+        dp(nums.size(),vector<int>(1001,0));
+
+        
+// Remember, it's a subsequence, so ordering matters.
+// For example:
+// nums = [3, 6, 9, 12]
+//         0  1  2   3
+
+// When:
+// curr = 2   // nums[2] = 9
+
+// the only valid previous elements are:
+// prev = 0 → 3
+// prev = 1 → 6
+
+        for(int i = 0; i < n; i++) {
+          for(int j = 0; j < i; j++) {
+
+            //the diff b/w curr and each prev
+            int diff = nums[i]-nums[j]+500;
+
+            //ok this diff how many times was found 
+            //till this idx.
+
+            //if this difference didnt occur before,
+            // so the number of elements is 2.
+            if(dp[j][diff] == 0)
+                dp[i][diff] = 2;
+            
+            //this difference already exists tht means
+            //so add this number
+            else
+                dp[i][diff] = max(dp[i][diff] ,dp[j][diff] + 1);
+
+            longest = max(longest,dp[i][diff]);
+        }}
+         
+         return longest;
+        
+    }
+};
+
+//pick the element
+//dont pick the element.
+
+
+//WHat should dp represent?
+
+// dp should represent - length of longest A.S so far.
+// but we need to track diff as well.
+
+// Do we need to track diff,prevIdx, currIdx 
+// or we can track , diff value?
+
+// nums[currIdx] - nums[prevIdx] = diff
