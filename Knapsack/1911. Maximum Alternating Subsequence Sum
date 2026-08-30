@@ -47,28 +47,66 @@ ____________________
 
 
 class Solution {
-public:
-    long long dp[100001][2]; // [index][sign:0->+,1->-]
+public: 
+    
+    vector<vector<long long>> dp;
+    //let true means plus and false means negative
+    long long MASHelper(vector<int>& nums,int currIdx,bool lastsign){
 
-    long long solve(vector<int>& nums, int idx, int sign) {
-        if (idx >= nums.size()) return 0;
-        if (dp[idx][sign != 1] != -1) return dp[idx][sign != 1];
+        if(currIdx==nums.size())
+         return 0;
 
-        long long dontPick = solve(nums, idx+1, sign);
-        long long pick = (long long)nums[idx]*sign + solve(nums, idx+1, -sign);
+        if(dp[currIdx][lastsign] !=-1)
+         return dp[currIdx][lastsign]; 
 
-        return dp[idx][sign != 1] = max(pick, dontPick);
+        long long dontpick = MASHelper(nums,currIdx+1,lastsign);
+
+        long long pick = 0;
+        if(lastsign==true)
+          pick = -nums[currIdx] + MASHelper(nums,currIdx+1,false);
+
+        else 
+          pick = nums[currIdx] + MASHelper(nums,currIdx+1,true); 
+
+        return dp[currIdx][lastsign] = max(pick,dontpick); 
+
     }
 
+
     long long maxAlternatingSum(vector<int>& nums) {
-        memset(dp, -1, sizeof(dp));
-        return solve(nums, 0, +1);
+
+        int n=nums.size(); 
+        dp.resize(n,vector<long long>(2,-1));
+        return MASHelper(nums,0,false);
     }
 };
 
 
-________________________
+// your current memoized solution is O(n), not O(n²)
 
+// Your state is:
+
+// dp[currIdx][lastsign]
+
+// There are:
+
+// n possible currIdx
+// 2 possible lastsign
+
+// So total states:
+
+// n × 2 = 2n
+
+
+// The important thing is how many possibilities each dimension has:
+
+// dp[n][2] → O(n × 2) → O(n)
+
+// dp[n][n] → O(n × n) → O(n²)
+
+
+
+________________________
 
 class Solution {
 public:
@@ -99,3 +137,19 @@ public:
         
     }
 };
+
+// alternate Sum - (+/-)
+// Subsequnce - (pick/dont pick)
+
+
+// when we take dp
+
+// the max sum possible is - -totalsum - +totalsum
+
+// also this is not possible beause we cant subtract all it needs to be adjacent altrnating signs
+
+// but lets take tht as min val - totlsum
+
+
+
+// so in array we need to represent from 0 - 2*totalSum
