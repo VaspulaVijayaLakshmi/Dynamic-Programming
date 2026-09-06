@@ -37,3 +37,44 @@ class Solution {
         
     }
 };
+
+
+_____________________
+
+
+class Solution {
+public:
+    int maximumPoints(vector<vector<int>>& mat) {
+
+        int r = mat.size();
+        int c = mat[0].size();
+
+        vector<vector<int>> dp(r, vector<int>(c, 0));
+
+        // 0th row
+        for(int col = 0; col < c; col++) {
+            dp[0][col] = mat[0][col];
+        }
+
+        // Remaining rows
+        for(int row = 1; row < r; row++) {
+
+            for(int col = 0; col < c; col++) {
+
+                int best = INT_MIN;
+
+                for(int prevCol = 0; prevCol < c; prevCol++) {
+
+                    if(prevCol != col) {
+                        best = max(best, dp[row-1][prevCol]);
+                    }
+                }
+
+                dp[row][col] = mat[row][col] + best;
+            }
+        }
+
+        // Maximum value in last row
+        return *max_element(dp[r-1].begin(), dp[r-1].end());
+    }
+};
