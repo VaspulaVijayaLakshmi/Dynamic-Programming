@@ -1,0 +1,39 @@
+class Solution {
+  public:
+  
+    vector<vector<int>> dp;
+    
+    int helper(vector<vector<int>>& mat,int prevCol,int currRow){
+        
+        if(currRow >= mat.size())
+         return 0;
+         
+        if(dp[currRow][prevCol+1]!=-1)
+         return dp[currRow][prevCol+1];
+         
+         
+        int ans=INT_MIN; 
+        for(int currCol=0;currCol<mat[0].size();currCol++){
+        
+           if(currCol!=prevCol){
+               
+             ans = max(ans, mat[currRow][currCol] + helper(mat,currCol,currRow+1));
+             
+           }
+        } 
+        
+        return dp[currRow][prevCol+1] = ans;
+        
+    }
+    
+    int maximumPoints(vector<vector<int>>& mat) {
+        
+        int r=mat.size();
+        int c=mat[0].size();
+        
+        dp.resize(r,vector<int>(c+1,-1));
+        
+        return helper(mat,-1,0); 
+        
+    }
+};
