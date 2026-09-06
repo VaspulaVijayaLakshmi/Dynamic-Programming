@@ -1,0 +1,36 @@
+2035. Partition Array Into Two Arrays to Minimize Sum Difference
+
+class Solution {
+public: 
+    int totalSum=0;
+    int minDiff = INT_MAX;
+
+    void minDiffHelper(vector<int>& nums,int count,int sum,int idx){
+
+        if(idx>=nums.size())
+         return ;
+
+        if(count == nums.size()/2){
+
+            int diff = abs(totalSum - 2*sum);
+            minDiff = min(minDiff,diff);
+            return ;
+        } 
+       
+       //dont pick
+       minDiffHelper(nums,count,sum,idx+1);
+
+       //pick
+       minDiffHelper(nums,count+1,sum+nums[idx],idx+1);
+
+    }
+
+
+    int minimumDifference(vector<int>& nums) {
+
+       totalSum= accumulate(nums.begin(),nums.end(),0);
+       minDiffHelper(nums,0,0,0);
+
+       return minDiff;
+    }
+};
