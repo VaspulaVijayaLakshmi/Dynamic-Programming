@@ -1,4 +1,3 @@
-https://leetcode.com/discuss/post/8302024/12-dp-patterns-resource-for-everyone-con-8j5y/
 
 https://www.youtube.com/watch?v=SxykjoG1NHU&list=PLiF6lAo--At1-wfJi5qwVxqwAsSEOkDMK&index=25
 
