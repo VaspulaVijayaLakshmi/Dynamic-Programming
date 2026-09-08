@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int lengthOfLongestSubsequence(vector<int>& nums, int target) {
+
+        int n = nums.size();
+
+        // dp[i][j] = longest subsequence using first i elements
+        //             with sum j
+        vector<vector<int>> dp(
+            n + 1,
+            vector<int>(target + 1, -1)
+        );
+
+        // Sum 0 requires 0 elements
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+
+            for (int j = 1; j <= target; j++) {
+
+                // Don't take nums[i-1]
+                dp[i][j] = dp[i - 1][j];
+
+                // Take nums[i-1]
+                if (j >= nums[i - 1] &&
+                    dp[i - 1][j - nums[i - 1]] != -1) {
+
+                    dp[i][j] = max(
+                        dp[i][j],
+                        dp[i - 1][j - nums[i - 1]] + 1
+                    );
+                }
+            }
+        }
+
+        return dp[n][target];
+    }
+};
