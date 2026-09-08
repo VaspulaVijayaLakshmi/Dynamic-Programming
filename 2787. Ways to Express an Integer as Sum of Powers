@@ -1,0 +1,105 @@
+class Solution {
+public:
+    const int MOD = 1e9 + 7;
+
+    int numberOfWays(int n, int x) {
+
+        int limit = (int)round(pow(n, 1.0 / x));
+        vector<vector<int>> dp(n + 1, vector<int>(limit + 2, 0));
+
+        // If sum = 0, there is exactly 1 way:
+        // choose nothing
+        for (int j = 1; j <= limit + 1; j++) {
+            dp[0][j] = 1;
+        }
+
+        for (int j = limit; j >= 1; j--) {
+            int power = pow(j, x);
+
+            for (int i = 1; i <= n; i++) {
+
+                // Don't take j^x
+                dp[i][j] = dp[i][j + 1];
+
+                // Take j^x
+                if (power <= i) {
+                    dp[i][j] =  (dp[i][j] + dp[i - power][j + 1]) % MOD;
+                }
+            }
+        }
+
+        return dp[n][1];
+    }
+};
+
+// Match it directly with your recursion
+
+// Your recursion:
+
+// // Don't take
+// solve(n, x, limit, currNumber + 1);
+
+// // Take
+// solve(n - power, x, limit, currNumber + 1);
+
+// becomes:
+
+// dp[remaining][curr]
+//     = dp[remaining][curr + 1]
+//     + dp[remaining - power][curr + 1];
+
+
+// class Solution {
+// public:
+//     const int MOD = 1e9 + 7;
+//     vector<vector<int>> dp;
+
+//     int solve(int n, int x, int limit, int currNumber) {
+
+//         if (n == 0)
+//             return 1;
+
+//         if (currNumber > limit)
+//             return 0;
+
+//         if (dp[n][currNumber] != -1)
+//             return dp[n][currNumber];
+
+//         int power = pow(currNumber, x);
+
+//         // Don't take
+//         long long ways = solve(n, x, limit, currNumber + 1);
+
+//         // Take
+//         if (power <= n) {
+//             ways += solve(n - power, x, limit, currNumber + 1);
+//         }
+
+//         return dp[n][currNumber] = ways % MOD;
+//     }
+
+//     int numberOfWays(int n, int x) {
+
+//         int limit = (int)round(pow(n, 1.0 / x));
+
+//         dp.assign(n + 1, vector<int>(limit + 1, -1));
+
+//         return solve(n, x, limit, 1);
+//     }
+// };
+
+
+
+// The key distinction
+
+// Your recursion travels:
+
+// j: 1 → limit
+// i: n → 0
+
+// But bottom-up tabulation calculates in reverse dependency order:
+
+// j: limit → 1
+// i: 0 → n
+
+// That's why the loops look "opposite" to your recursive movement.
