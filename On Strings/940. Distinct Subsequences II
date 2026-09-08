@@ -1,0 +1,32 @@
+class Solution {
+public:
+
+    void solve(string& s, int i, string curr, set<string>& st) {
+
+        if(i == s.size()) {
+            st.insert(curr);
+            return;
+        }
+
+        // Don't take s[i]
+        solve(s, i + 1, curr, st);
+
+        // Take s[i]
+        solve(s, i + 1, curr + s[i], st);
+    }
+
+    int distinctSubseqII(string s) {
+
+        set<string> st;
+
+        solve(s, 0, "", st);
+
+        // Remove empty subsequence
+        return st.size() - 1;
+    }
+};
+
+
+
+//this almost look slike combinations 2
+// but we cant sor tthe array to check if(s[i]==s[i-1]) continue
