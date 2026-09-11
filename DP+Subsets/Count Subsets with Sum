@@ -1,0 +1,134 @@
+class Solution {
+  public:
+  
+    int perfectSum(vector<int>& arr, int target,int idx){
+    
+       
+        if(idx>=arr.size())
+         return target==0;
+
+        //dont take
+        int dontTake = perfectSum(arr,target,idx+1);
+        
+        int take=0;
+        //take;
+        if(target>=arr[idx])
+          take = perfectSum(arr,target-arr[idx],idx+1);
+        
+        return take+dontTake;
+    }
+    
+    
+    int perfectSum(vector<int>& arr, int target) {
+        
+        return perfectSum(arr,target,0);
+        
+    }
+};
+
+
+// The key distinction
+
+// target == 0 does not necessarily mean we're finished.
+
+// It means:
+
+// "The selected elements so far have reached the target."
+
+// But there may still be elements left that can also be selected.
+
+// For example:
+
+// arr = [5, 0]
+// target = 5
+
+// After taking 5:
+
+// idx = 1
+// target = 0
+
+// There are still two possibilities:
+
+// {} relative to remaining elements → {5}
+// {0}                       → {5,0}
+
+// Both are valid subsets.
+
+// So don't stop just because target becomes 0 when zeros are allowed.
+
+
+
+class Solution {
+  public:
+    
+    vector<vector<int>> dp;
+    int perfectSum(vector<int>& arr, int target,int idx){
+    
+       
+        if(idx>=arr.size())
+         return target==0;
+         
+        if(dp[idx][target] !=-1)
+         return dp[idx][target];
+
+        //dont take
+        int dontTake = perfectSum(arr,target,idx+1);
+        
+        int take=0;
+        //take;
+        if(target>=arr[idx])
+          take = perfectSum(arr,target-arr[idx],idx+1);
+        
+        return dp[idx][target] = take+dontTake;
+    }
+    
+    
+    int perfectSum(vector<int>& arr, int target) {
+        
+        int n=arr.size();
+        dp.resize(n,vector<int>(target+1,-1));
+    
+        
+        
+        
+        return perfectSum(arr,target,0);
+        
+    }
+};
+
+
+
+
+
+class Solution {
+  public:
+    
+    vector<vector<int>> dp;
+    int perfectSum(vector<int>& arr, int target) {
+        
+        int n=arr.size();
+        dp.resize(n+1,vector<int>(target+1,0));
+        
+        //rows on x-axis 
+        //target on y-acis
+        
+        // Empty subset makes sum 0
+        for (int i = 0; i <= n; i++)
+                  dp[i][0] = 1;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=0;j<=target;j++){
+                
+                dp[i][j] = dp[i-1][j]; 
+                
+                
+                if(arr[i-1]<=j)
+                  dp[i][j] += dp[i-1][j-arr[i-1]];
+            }
+        }
+        
+    
+        return dp[n][target];
+        
+    }
+};
