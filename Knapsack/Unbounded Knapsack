@@ -32,3 +32,63 @@ class Solution {
         return knapsack(capacity,val,wt,0);
     }
 };
+
+
+
+
+
+
+
+class Solution {
+  public:
+   vector<vector<int>> dp;
+
+    int knapSack(vector<int>& val, vector<int>& wt, int W) {
+        // code here
+       int n = val.size();
+       dp.resize(n + 1, vector<int>(W + 1, 0));
+
+       for(int i = 1; i <= n; i++) {
+           for(int j = 1; j <= W; j++) {
+
+               int dontTake = dp[i-1][j];
+
+               int take = 0;
+               if(wt[i-1] <= j)
+                   take = val[i-1] + dp[i][j-wt[i-1]];
+
+               dp[i][j] = max(take, dontTake);
+           }
+       }
+
+       return dp[n][W];
+    }
+};
+
+
+
+
+
+The important difference
+
+0/1 Knapsack:
+
+take = val[i-1] + dp[i-1][j-wt[i-1]];
+                                      ↑
+                               previous row
+
+Unbounded Knapsack:
+
+take = val[i-1] + dp[i][j-wt[i-1]];
+                                      ↑
+                                same row
+
+Why?
+
+0/1 → item can be used only once
+      take → move to i-1
+
+Unbounded → item can be used multiple times
+            take → stay at i
+
+That's the main thing to remember.
