@@ -1,0 +1,126 @@
+class Solution {
+  public:
+  
+   int cutRod(vector<int> &price,int idx,int length){
+       
+       if(idx>=price.size() || length<=0)
+         return 0;
+         
+        //dot cut 
+        int dontcut = cutRod(price,idx+1,length);
+        
+        int cut=0;
+       //if im willing to cut, what to do.
+       //the left over length should be enough
+       
+       //idx+1, because idx is 0-based
+        if(length >= idx+1)
+          cut = price[idx] + cutRod(price,idx,length-(idx+1));
+        
+        return max(dontcut,cut);
+         
+   }
+   
+   
+    int cutRod(vector<int> &price) {
+       
+       int n=price.size();
+       return cutRod(price,0,n);
+        
+    }
+};
+
+
+
+
+_____________________________________________________
+MEMO
+
+
+class Solution {
+  public: 
+   vector<vector<int>> dp;
+  
+   int cutRod(vector<int> &price,int idx,int length){
+       
+       if(idx>=price.size() || length<=0)
+         return 0;
+         
+        if(dp[idx][length] != -1)
+         return dp[idx][length];
+         
+        //dot cut 
+        int dontcut = cutRod(price,idx+1,length);
+        
+        int cut=0;
+       //if im willing to cut, what to do.
+       //the left over length should be enough
+       
+       //idx+1, because idx is 0-based
+        if(length >= idx+1)
+          cut = price[idx] + cutRod(price,idx,length-(idx+1));
+        
+        return dp[idx][length] = max(dontcut,cut);
+         
+   }
+   
+   
+    int cutRod(vector<int> &price) {
+       
+       int n=price.size();
+       
+       //x-axis, prices
+       //y-axis lengt of rod
+       dp.resize(n,vector<int>(n+1,-1));
+       return cutRod(price,0,n);
+        
+    }
+};
+
+
+_____________________________________________________
+
+
+class Solution {
+  public: 
+   vector<vector<int>> dp;
+ 
+   
+    int cutRod(vector<int> &price) {
+       
+       int n=price.size();
+       
+       //x-axis, prices
+       //y-axis lengt of rod
+       dp.resize(n+1,vector<int>(n+1,-0));
+       
+       
+       //when prices are there, but length is 0 -> then 0
+       
+       //when length>0 but prices are 0 -> then 0
+       
+       for(int i=1;i<=n;i++){
+           for(int j=1;j<=n;j++){
+             
+             
+             int dontcut = dp[i-1][j];
+             
+             int cut=0;
+             
+             
+             //check unbounded knapsack
+             //we pick i again
+             if(i <= j)
+               cut = price[i-1] + dp[i][j-i];
+             
+             dp[i][j] = max(cut,dontcut);
+               
+           }
+       }
+       
+       
+       return dp[n][n];
+        
+    }
+};
+
