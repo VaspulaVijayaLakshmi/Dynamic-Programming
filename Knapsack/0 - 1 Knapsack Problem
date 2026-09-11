@@ -1,0 +1,65 @@
+class Solution {
+  public:
+    vector<vector<int>> dp;
+    
+    int knapsack(int W, vector<int> &val, vector<int> &wt,int idx) {
+        
+        if(idx>=val.size())
+          return 0;
+          
+        if(W==0)
+         return 0;
+         
+        if(dp[idx][W] != -1)
+         return dp[idx][W];
+        
+        //dont pick
+        int dontpick = knapsack(W,val,wt,idx+1) ;
+        
+        int pick=0;
+        //pick
+        if(wt[idx]<=W)
+          pick = val[idx] + knapsack(W-wt[idx],val,wt,idx+1) ;
+        
+        
+        return dp[idx][W] = max(pick,dontpick);
+    }
+    
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        
+        int n=val.size();
+        
+        dp.resize(n,vector<int>(W+1,-1));
+        return knapsack(W,val,wt,0);
+        
+    }
+};
+
+
+class Solution {
+  public:
+    vector<vector<int>> dp;
+
+  int knapsack(int W, vector<int> &val, vector<int> &wt) {
+
+      int n = val.size();
+      dp.resize(n + 1, vector<int>(W + 1, 0));
+
+      for(int i = 1; i <= n; i++) {
+          for(int j = 1; j <= W; j++) {
+
+              int dontTake = dp[i-1][j];
+
+              int take = 0;
+              if(wt[i-1] <= j)
+                  take = val[i-1] + dp[i-1][j-wt[i-1]];
+
+              dp[i][j] = max(take, dontTake);
+          }
+      }
+
+      return dp[n][W];
+  }
+};
+
+
