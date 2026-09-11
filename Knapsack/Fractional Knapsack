@@ -1,0 +1,61 @@
+class Solution {
+  public:
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        
+        //so wt -> [10,20,30]
+        //  val-> [60,100,120] 
+        
+        // so for 10 units of weight -> its 60
+        // for 1 unit -> 6RS for 1unit.
+        
+        // 30 units ->120
+        // 120/30 -> 40 rs 
+        
+        // so we will have different units
+        
+        // val/wt -> [6,5,4] per unit
+       
+        //greedy
+        
+        //because take everything -of the highest profit one, 
+        //if not sufficient, take fraction
+        
+        // sort the val/wt array
+        
+        int n = val.size();
+
+        vector<pair<double, pair<int,int>>> items;
+
+                // ratio, {value, weight}
+        for(int i = 0; i < n; i++) {
+            double ratio = (double)val[i] / wt[i];
+            items.push_back({ratio, {val[i], wt[i]}});
+        }
+
+                // highest value/weight first
+        sort(items.rbegin(), items.rend());
+        
+        double ans = 0;
+
+                for(auto item : items) {
+                    double ratio = item.first;
+                    int value = item.second.first;
+                    int weight = item.second.second;
+
+                    if(weight <= capacity) {
+                        // take complete item
+                        ans += value;
+                        capacity -= weight;
+                    }
+                    else {
+                        // take only the fraction that fits
+                        ans += ratio * capacity;
+                        break;
+                    }
+                }
+
+                return ans;
+      
+        
+    }
+};
