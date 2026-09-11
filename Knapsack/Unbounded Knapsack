@@ -1,0 +1,34 @@
+class Solution {
+  public:
+   vector<vector<int>> dp;
+   int knapsack(int W, vector<int> &val, vector<int> &wt,int idx) {
+
+           if(idx>=val.size())
+             return 0;
+
+           if(W==0)
+            return 0;
+
+           if(dp[idx][W] != -1)
+            return dp[idx][W];
+
+           //dont pick
+           int dontpick = knapsack(W,val,wt,idx+1) ;
+
+           int pick=0;
+           //pick
+           if(wt[idx]<=W)
+             pick = val[idx] + knapsack(W-wt[idx],val,wt,idx) ;
+
+
+           return dp[idx][W] = max(pick,dontpick);
+       }
+  
+    int knapSack(vector<int>& val, vector<int>& wt, int capacity) {
+        // code here
+        
+        int n=val.size();
+        dp.resize(n,vector<int>(capacity+1,-1));
+        return knapsack(capacity,val,wt,0);
+    }
+};
