@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+
+        int m = dungeon.size();
+        int n = dungeon[0].size();
+
+       // dp[i][j] = minimum health needed to survive from (i,j) → destination
+        vector<vector<int>> dp(m, vector<int>(n,0));
+
+        // Destination
+
+        //if a cell is postive, i still need to start with 1
+        //if a cell is negative, i need to start will 
+        // 1 + (-1*cell[i][j])
+        
+        //so Im doing 1-(-cell[i][j]) -> 1+cell[i][j]
+        dp[m-1][n-1] = max(1, 1 - dungeon[m-1][n-1]);
+
+
+        // Last column
+        for(int i = m-2; i >= 0; i--) {
+            dp[i][n-1] = max(1, dp[i+1][n-1] - dungeon[i][n-1]);
+        }
+
+        // Last row
+        for(int j = n-2; j >= 0; j--) {
+            dp[m-1][j] = max(1, dp[m-1][j+1] - dungeon[m-1][j]);
+        }
+
+        // Rest of the grid
+        for(int i = m-2; i >= 0; i--) {
+            for(int j = n-2; j >= 0; j--) {
+
+                int next = min(dp[i+1][j], dp[i][j+1]);
+
+                dp[i][j] = max(1, next - dungeon[i][j]);
+            }
+        }
+
+        return dp[0][0];
+    }
+};
+
