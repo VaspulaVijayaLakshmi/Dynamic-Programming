@@ -1,0 +1,66 @@
+class Solution {
+  public:
+   vector<vector<int>> memo;
+   
+   int dp(vector<int>& coins, int sum,int idx){
+       
+       if(idx>=coins.size() || sum<0)
+        return 0;
+        
+        if(sum==0)
+         return 1;
+         
+        if(memo[idx][sum] != -1)
+         return memo[idx][sum];
+        
+        int donttake = dp(coins,sum,idx+1);
+        
+        int take=0;
+        if(coins[idx] <= sum)
+          take = dp(coins,sum-coins[idx],idx);
+        
+        return memo[idx][sum] = take+donttake;
+       
+   }
+  
+    int count(vector<int>& coins, int sum) {
+       
+       int n=coins.size();
+       memo.resize(n,vector<int>(sum+1,-1));
+       return dp(coins,sum,0);
+        
+    }
+};
+
+//take coin/dont take coin
+
+
+ int count(vector<int>& coins, int sum) {
+       
+       int n=coins.size();
+       memo.resize(n+1,vector<int>(sum+1,0));
+       
+       
+       //sum is 0
+       //coins are 0
+       
+       // One way to make sum = 0: take nothing
+       for(int i = 0; i <= n; i++) {
+           memo[i][0] = 1;
+       }
+      
+       for(int i=1;i<=n;i++){
+           for(int j=1;j<=sum;j++){
+               
+               memo[i][j] = memo[i-1][j];
+               
+               if(coins[i-1] <=j)
+               //if the coin can be icked, ick the same i again
+                 memo[i][j] += memo[i][j-coins[i-1]];
+           }
+       }
+       
+       return memo[n][sum];
+        
+    }
+};
