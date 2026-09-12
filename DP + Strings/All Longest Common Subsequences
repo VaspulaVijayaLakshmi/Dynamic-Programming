@@ -1,0 +1,95 @@
+LCS 
+
+Think in reverse now.
+We filled the LCS table, now we need to find all LCSs
+
+
+Think of the two cases
+
+1. Match → consume a character
+
+s1[i-1] == s2[j-1]
+dp[i][j] = 1 + dp[i-1][j-1]
+
+
+So here:
+dp[i-1][j-1] = dp[i][j] - 1
+
+
+2. Don't match → skip a character
+
+dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+Therefore one or both previous cells can have the same length:
+
+Eg : 
+dp[i][j] = 4
+
+dp[i-1][j] = 4  ← valid path
+dp[i][j-1] = 4  ← valid path
+
+We follow both because both can produce an LCS of length 4.
+
+
+
+
+class Solution {
+public:
+
+    vector<vector<int>> dp;
+    set<string> result;
+
+    void findAll(string &s1, string &s2, int i, int j, string curr) {
+
+        if(i == 0 || j == 0) {
+            reverse(curr.begin(), curr.end());
+            result.insert(curr);
+            return;
+        }
+
+        // Match
+        if(s1[i-1] == s2[j-1]) {
+            findAll(s1, s2, i-1, j-1, curr + s1[i-1]);
+        }
+
+
+        // Both directions can give an LCS
+        else {
+
+            if(dp[i-1][j] == dp[i][j]) {
+                findAll(s1, s2, i-1, j, curr);
+            }
+
+            if(dp[i][j-1] == dp[i][j]) {
+                findAll(s1, s2, i, j-1, curr);
+            }
+        }
+    }
+
+    vector<string> allLCS(string &s1, string &s2) {
+
+        int n = s1.size();
+        int m = s2.size();
+
+        dp.resize(n+1, vector<int>(m+1, 0));
+
+        // Build LCS table
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+
+                if(s1[i-1] == s2[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+
+        findAll(s1, s2, n, m, "");
+
+        return vector<string>(result.begin(), result.end());
+    }
+};
+
+
+
+
