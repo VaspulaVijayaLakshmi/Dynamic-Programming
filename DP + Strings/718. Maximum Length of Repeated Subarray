@@ -1,3 +1,13 @@
+Recursion -> 
+
+O(n^2) -> nested loop
+×
+O(min(n,m)) work per starting point
+
+so basiccally nearly O(n^3) -> time complexity
+
+
+
 class Solution {
 public:
     int findLength(vector<int>& nums1, vector<int>& nums2,int idx1,int idx2){
