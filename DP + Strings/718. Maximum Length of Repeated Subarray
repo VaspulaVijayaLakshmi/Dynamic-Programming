@@ -1,0 +1,121 @@
+class Solution {
+public:
+    int findLength(vector<int>& nums1, vector<int>& nums2,int idx1,int idx2){
+
+        if(idx1 >= nums1.size() || idx2>=nums2.size())
+         return 0;
+ 
+        //we will end this here itself.
+        if(nums1[idx1] != nums2[idx2])
+           return 0;
+
+        return 1+ findLength(nums1,nums2,idx1+1,
+        idx2+1);                
+    }
+
+
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        
+        int maxLen=0;
+        for(int i=0;i<nums1.size();i++){
+            for(int j=0;j<nums2.size();j++){
+
+                maxLen = max(maxLen,
+
+                //why nested loop and passing i,j each time
+                
+                //because we will be consiudering each scenario, when 
+                // array 1 start at i, and arr2 started at j.
+                //multuple combinations
+
+                findLength(nums1,nums2,i,j));
+
+            }
+        }
+
+        return maxLen;
+
+    }
+};
+
+
+___________________
+
+class Solution {
+public:
+    int maxLen=0;
+    vector<vector<int>> dp;
+
+    int findLength(vector<int>& nums1, vector<int>& nums2,int idx1,int idx2){
+
+        if(idx1 >= nums1.size() || idx2>=nums2.size())
+         return 0;
+
+        if(dp[idx1][idx2]!=-1)
+          return dp[idx1][idx2]; 
+ 
+        //we will end this here itself.
+        if(nums1[idx1] != nums2[idx2])
+           dp[idx1][idx2] = 0;
+
+        else{ 
+           dp[idx1][idx2] = 1+ 
+           findLength(nums1,nums2,idx1+1,idx2+1);
+
+           maxLen = max(maxLen,dp[idx1][idx2]);
+        } 
+
+        return dp[idx1][idx2];               
+    }
+
+
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+
+        dp.resize(nums1.size()+1,vector<int>(nums2.size()+1,-1));
+        
+        for(int i=0;i<nums1.size();i++){
+            for(int j=0;j<nums2.size();j++){
+
+                findLength(nums1,nums2,i,j);
+
+            }
+        }
+
+        return maxLen;
+
+    }
+};
+
+
+
+dp
+
+class Solution {
+public:
+    int maxLen=0;
+    vector<vector<int>> dp;
+
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+
+        dp.resize(nums1.size()+1,vector<int>(nums2.size()+1,0));
+        
+
+        //LCS but start a new substring if there is a mismatch
+        for(int i=1;i<=nums1.size();i++){
+            for(int j=1;j<=nums2.size();j++){
+               
+               if(nums1[i-1] != nums2[j-1])
+                  dp[i][j] = 0;
+
+               else{
+                  dp[i][j] = 1+dp[i-1][j-1];
+                  maxLen = max(maxLen,dp[i][j]);
+               }   
+
+            }
+        }
+
+        return maxLen;
+
+    }
+};
