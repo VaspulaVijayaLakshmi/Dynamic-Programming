@@ -60,3 +60,14 @@ string findLCS(int n, int m,string &text1, string &text2){
 
     return lcs;
 }
+
+
+ //when we start from end, 
+    
+// if chars are equal we will move diagonally -> dp[i-1][j-1]
+    
+//if chars are not equal, we will move in which ever direction
+    //left/top is max
+
+
+/check print all LCS
