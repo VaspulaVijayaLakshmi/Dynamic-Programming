@@ -1,0 +1,101 @@
+
+class Solution {
+public:
+    vector<vector<int>> dp;
+
+    int solve(string& word1, string& word2, int i, int j) {
+        
+        //if the word1 ended, then we need to insert the 
+        // remaining chars of word2 into word1
+        if(i == word1.size())
+            return word2.size() - j;
+
+        //if the word2 ended, then we need to delte the remaining
+        //chars form word1.
+        if(j == word2.size())
+            return word1.size() - i;
+
+        if(dp[i][j] != -1)
+            return dp[i][j];
+
+        if(word1[i] == word2[j])
+            return dp[i][j] = solve(word1, word2, i+1, j+1);
+
+        //delte that char, that means go forward in word1 and try checking
+        int del     = solve(word1, word2, i+1, j);
+
+        //replace the current character of word1 with word2,
+        // so now its match so both can move forward
+        int replace = solve(word1, word2, i+1, j+1);
+
+        //insert a new char that matches the curr wrod2 character so that here also both moves forward
+
+        //but we are not physcially placing the character, 
+        // so idx wont move.
+        // so i inserted some char, tht macthes word2
+        //but now since we dint insert-insert so we will. ove word2 forward.
+
+        int insert  = solve(word1, word2, i, j+1);
+
+        return dp[i][j] = 1 + min({replace, del, insert});
+    }
+
+    int minDistance(string word1, string word2) {
+
+        int n = word1.size();
+        int m = word2.size();
+
+        dp.assign(n, vector<int>(m, -1));
+
+        return solve(word1, word2, 0, 0);
+    }
+};
+
+
+
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+
+        int n1=word1.size();
+        int n2=word2.size();
+
+        // word2 on x-axis
+        // word1 on y-axis
+        vector<vector<int>> dp(n2+1,vector<int>(n1+1,0));
+
+        for(int i=1;i<=n2;i++){
+
+           //word2 is emoty  
+           dp[i][0]+= (dp[i-1][0]+1);
+        }
+
+        for(int j=1;j<=n1;j++){
+
+            //word1 is empty
+              dp[0][j]+= (dp[0][j-1]+1);
+        }
+
+        for(int i=1;i<=n2;i++){
+            for(int j=1;j<=n1;j++){
+
+                if(word1[j-1]==word2[i-1]){
+                    dp[i][j] = dp[i-1][j-1];
+                }
+
+                else
+                  dp[i][j] = 1+min({
+                    dp[i-1][j], 
+                    dp[i][j-1], 
+                    dp[i-1][j-1] 
+                });
+               
+
+            }
+        }
+
+       return dp[n2][n1];
+        
+    }
+};
+
