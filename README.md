@@ -2,6 +2,7 @@
 https://www.youtube.com/watch?v=SxykjoG1NHU&list=PLiF6lAo--At1-wfJi5qwVxqwAsSEOkDMK&index=25
 
 
+https://algo.monster/problems/dynamic_programming_intro
 
 
 
