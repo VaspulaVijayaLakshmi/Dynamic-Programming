@@ -1,0 +1,58 @@
+// we cant print the subsequence while building the dp, 
+// since dp at a point onlt calculates  lcs till tht part only.
+// but we need at the end
+
+
+
+string findLCS(int n, int m,string &text1, string &text2){
+	// Write your code here.	
+
+	    int n1 = text1.size();
+        int n2 = text2.size();
+
+        // n1 on x-axis
+        // n2 on y-axis
+
+       vector<vector<int>> dp(n1+1,vector<int>(n2+1,0));
+
+      for(int i=1;i<=n1;i++){
+        for(int j=1;j<=n2;j++){
+
+            if(text1[i-1] == text2[j-1])
+              dp[i][j] = dp[i-1][j-1] + 1;
+
+			
+            else 
+			 dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+			}
+            
+        }
+
+
+	   string lcs = "";
+
+      while(n1>0 && n2>0){
+
+		  if(text1[n1-1] == text2[n2-1]){
+			  
+			  lcs+=text1[n1-1];
+
+			  n1--;
+			  n2--;
+		  }
+
+		  else{
+
+			  if(dp[n1-1][n2] > dp[n1][n2-1])
+				  n1--;
+
+			  else
+				  n2--;
+		  }   
+
+	  }
+
+	  reverse(lcs.begin(),lcs.end());
+
+    return lcs;
+}
