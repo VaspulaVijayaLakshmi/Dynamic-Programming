@@ -1,0 +1,81 @@
+class Solution {
+  public:
+    vector<vector<int>> dp;
+    
+    int LRS(string &s,string &t,int i,int j){
+        
+        if(i>=s.size() || j>=t.size())
+          return 0;
+          
+        if(dp[i][j] != -1)
+         return dp[i][j];
+          
+        //match
+        int match=0,dontmatch=0;
+        
+        if(s[i] == t[j] && i!=j){
+           match =  1+LRS(s,t,i+1,j+1);
+        }
+        
+        //dontmattch
+         dontmatch = max( LRS(s,t,i+1,j) , LRS(s,t,i,j+1));
+         
+         return dp[i][j] = max(match,dontmatch);
+         
+        }
+        
+
+    int longestRepSubseq(string &s) {
+        
+        int n=s.size();
+        dp.resize(n+1,vector<int>(n+1,-1));
+        return LRS(s,s,0,0);
+        
+    }
+};
+
+
+// Longest Repeating SUbsequence
+
+// s = "axxzxy"
+// t = "axxzxy"
+
+//we dont pick the index again
+
+//how would we know , if we oicked tht idx or not.,
+//we can do if(i!=j)
+
+
+
+___________________________________
+
+class Solution {
+  public:
+    vector<vector<int>> dp;
+    
+    int longestRepSubseq(string &s) {
+        
+        int n=s.size();
+        string t=s;
+        
+        dp.resize(n+1,vector<int>(n+1,0));
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                
+               if(s[i-1] == t[j-1] && i!=j){
+                   dp[i][j] = 1+dp[i-1][j-1];
+               }
+               
+               else{
+                  dp[i][j] = max( dp[i-1][j] , dp[i][j-1] );
+               }
+               
+            }
+        }
+        
+        
+        return dp[n][n];
+        
+    }
+};
