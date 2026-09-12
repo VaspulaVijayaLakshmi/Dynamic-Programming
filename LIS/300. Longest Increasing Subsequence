@@ -33,3 +33,57 @@ public:
  
     }
 };
+
+
+
+
+__________
+
+
+class Solution {
+public:
+
+    int lengthOfLIS(vector<int>& nums) {
+      
+       int n=nums.size();
+       vector<int> dp(n,1);
+
+       int ans=0;
+       
+      for(int curr=0;curr<n;curr++){
+
+
+        // You cannot pick just one prev directly, 
+        //because we don't know which previous element gives the longest valid LIS ending before curr.
+
+          for(int prev=0;prev<curr;prev++){
+             
+             if(nums[curr]>nums[prev])
+             dp[curr] = max(dp[curr] , 1+dp[prev]);
+
+          }
+
+           ans=max(ans,dp[curr]);
+      }
+      
+
+       return ans;
+        
+    }
+};
+
+
+// nums = [10,9,2,5,3,7,101,18]
+
+
+//the state of dp depends on prev and curr
+//which prev i came from.
+
+
+
+// for each option in recursion 
+// -> we have option.
+
+// time compleixty - 2^n
+
+// Memoized sol - O(n)
