@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> dp;
+    int solve(vector<int>& arr, int k, int i) {
+        int n = arr.size();
+
+        if(i >= n)
+            return 0;
+
+        if(dp[i]!=-1)
+         return dp[i];    
+
+        int maxElement = 0;
+        int ans = 0;
+
+        for(int len = 1; len <= k && 
+        i + len <= n; len++) {
+
+            maxElement = max(maxElement, arr[i + len - 1]);
+
+            int current = maxElement * len
+                        + solve(arr, k, i + len);
+
+            ans = max(ans, current);
+        }
+
+        return dp[i] = ans;
+    }
+
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n=arr.size();  
+        dp.resize(n + 1, -1);
+        return solve(arr, k, 0);
+    }
+};
+
+// subarrays - length atmost k
+// sizes = (1,2,3...k)
+
+// so, when Im at index k -> in recursion,
+
+// i can use k,k+1,k+2..k+k
+// then maxium sum i need to consider
