@@ -1,0 +1,91 @@
+class Solution {
+public:
+    string shortestCommonSupersequence(string s1, string s2) {
+
+        int n1 = s1.size();
+        int n2 = s2.size();
+
+        vector<vector<int>> dp(n1 + 1, 
+        vector<int>(n2 + 1, 0));
+
+        // LCS
+        for(int i = 1; i <= n1; i++) {
+            for(int j = 1; j <= n2; j++) {
+
+                if(s1[i-1] == s2[j-1]) {
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }
+                else {
+                    dp[i][j] = 
+                    max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+
+        //print string
+        string res="";
+        while(n1>0 && n2>0){
+           
+           //both are equal, add the str once
+           if(s1[n1-1] == s2[n2-1]){
+              res+=s1[n1-1];
+              n1--;
+              n2--;
+           }
+           
+           //when they are not equal , we need to add both, but which direction to move.
+ 
+           //move in LCS direction, because we want to preserve the lcs much a spossible.
+
+           else if(dp[n1-1][n2] > dp[n1][n2-1]){
+              res+=s1[n1-1];
+              n1--;
+           }
+
+           else{
+              res+=s2[n2-1];
+              n2--;
+           }
+   
+           }
+
+        while(n1>0){
+            res += s1[n1-1];
+            n1--;
+        }
+
+        while(n2>0){
+            res+= s2[n2-1];
+            n2--;
+        }
+
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
+
+// find lcs 
+
+// s1 = "geek",
+// s2 = "eke"
+
+// SCS =  "geeke"
+// LCS = "ek"
+
+// s1+s2 - LCS
+
+//    ""  e  k  e
+// ""     0  0. 0
+// g  0   0. 0. 0
+// e. 0.  1. 1. 1
+// e. 0.  1. 1. 2  
+// k. 0.  1. 2. 2
+
+//now we want to print SCS 
+
+// if they are not equal -> 
+// which one should we use "ek" or "ke"
+
+// depends on which string is bigger, that ill append later then smaller ones
+
+
