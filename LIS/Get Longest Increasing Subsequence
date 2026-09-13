@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<int> getLIS(vector<int>& nums) {
+
+        int n = nums.size();
+
+        // dp[i] = length of the longest increasing subsequence ending at i
+        vector<int> dp(n, 1);
+        vector<int> parent(n, -1);
+
+        int last = 0;
+
+        for(int i = 0; i < n; i++) {
+
+            for(int prev = 0; prev < i; prev++) {
+
+                if(nums[prev] < nums[i] &&
+                   dp[prev] + 1 > dp[i]) {
+
+                    dp[i] = dp[prev] + 1;
+
+                    // prev is the element we picked before i
+                    parent[i] = prev;
+                }
+            }
+
+            if(dp[i] > dp[last])
+                last = i;
+        }
+
+        // Reconstruct LIS
+        vector<int> ans;
+
+        while(last != -1) {
+            ans.push_back(nums[last]);
+            last = parent[last];
+        }
+
+        reverse(ans.begin(), ans.end());
+
+        return ans;
+    }
+};
+
+
+// nums = [10, 9, 2, 5, 3, 7, 101, 18]
+
+// dp   = [1, 1, 1, 2, 2, 3, 4, 4]
+//                          ↑
+//                       max
+
+// We need to know which index has the maximum dp.
