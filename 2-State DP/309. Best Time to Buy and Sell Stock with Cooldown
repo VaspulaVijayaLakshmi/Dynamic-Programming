@@ -1,0 +1,79 @@
+class Solution {
+public:
+    vector<vector<int>> dp;
+
+    int maxProfit(vector<int>& prices,int buy,int idx){
+
+        if(idx>=prices.size())
+         return 0;
+
+        if(dp[idx][buy] != -1)
+          return dp[idx][buy]; 
+        
+        int ans=0;
+        if(buy){
+
+           ans = max( 
+             -prices[idx] + maxProfit(prices,!buy,idx+1),
+                      maxProfit(prices,buy,idx+1)
+                    );
+        }
+
+        else{
+
+            ans = max(
+            prices[idx] + maxProfit(prices,!buy,idx+2),  
+               maxProfit(prices,buy,idx+1) 
+            );
+        }
+
+
+        return dp[idx][buy] = ans; 
+
+    }
+    int maxProfit(vector<int>& prices) {
+        
+        int n=prices.size();
+        dp.resize(n,vector<int>(2,-1));
+
+        return maxProfit(prices,1,0);
+        
+    }
+};
+
+// ok here the only thing is, if uou sell, move idx+2, insuead of idx+1..
+
+
+
+
+
+___________________________
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+
+        int n = prices.size();
+
+        vector<vector<int>> dp(n + 2, vector<int>(2, 0));
+
+        dp[0][0] = -prices[0];
+
+        for(int i = 1; i < n; i++) {
+
+            // buy
+            dp[i][0] = max(
+                dp[i-1][0],
+                dp[i-2 >= 0 ? i-2 : 0][1] - prices[i]
+            );
+
+            // sell
+            dp[i][1] = max(
+                dp[i-1][1],
+                dp[i-1][0] + prices[i]
+            );
+        }
+
+        return dp[n-1][1];
+    }
+};
