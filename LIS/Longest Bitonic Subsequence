@@ -1,0 +1,72 @@
+class Solution {
+  public:
+
+    int longestBitonicSequence(int n,vector<int> &nums) {
+
+            vector<int> lis(n, 1);
+            vector<int> lds(n, 1);
+
+            // LIS ending at i
+            for(int i = 0; i < n; i++) {
+
+                for(int prev = 0; prev < i; prev++) {
+
+                    if(nums[prev] < nums[i]) {
+                        lis[i] = max(lis[i], lis[prev] + 1);
+                    }
+                }
+            }
+
+            // LDS starting at i
+            // Traverse from right to left
+            for(int i = n - 1; i >= 0; i--) {
+
+                for(int next = i + 1; next < n; next++) {
+
+                    if(nums[next] < nums[i]) {
+                        lds[i] = max(lds[i], lds[next] + 1);
+                    }
+                }
+            }
+
+
+            int ans = 0;
+
+            // Consider every element as the peak
+            for(int i = 0; i < n; i++) {
+                
+                // Must have increasing AND decreasing part
+                         if(lis[i] > 1 && lds[i] > 1) 
+                            ans = max(ans, lis[i] + lds[i] - 1);
+            }
+
+            return ans;
+        }
+};
+
+
+
+    //   LIS - LIS ending at i
+       
+    //   LDS - LDS ending at i
+       
+    //   consider each element as peak and 
+    //   then at that point, check LIS till i (0 to i)
+    //   and LDS from (i+1 to n)
+       
+    //   LIS[i] → 0 ...... i
+    //               ↑
+    //           ends here
+
+    //   LDS[i] → i ...... n-1
+    //             ↑
+    //          starts here
+             
+    //     And i is the common peak.  
+        
+        
+    //     LIS[i] = LIS ending at i
+    //              0 ........ i
+
+    //     LDS[i] = LDS starting at i
+    //              i ........ n-1
