@@ -1,0 +1,92 @@
+class Solution {
+public:
+   vector<vector<int>> dp;
+   int minCapability(vector<int>& nums, int k,int idx) {
+
+        if(k == 0)
+            return 0;
+
+        if(idx >= nums.size())
+            return INT_MAX;
+
+        if(dp[idx][k] !=-1)
+          return dp[idx][k];    
+ 
+        //dont steal
+        int dontSteal = minCapability(nums,k,idx+1);
+        
+        // The capability of the robber is the 
+        // maximum amount of money he steals from one house of all the houses he robbed.
+
+        //steal 
+        int steal = max(nums[idx], 
+         minCapability(nums,k-1,idx+2));
+
+        return dp[idx][k] = min(dontSteal,steal);
+        
+    }
+   
+    int minCapability(vector<int>& nums, int k) {
+        
+        int n=nums.size();
+        dp.resize(n,vector<int>(k+1,-1));
+        return minCapability(nums,k,0);
+    }
+};
+
+
+// so recursion
+// k - houses max
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    int minCapability(vector<int>& nums, int k) {
+
+        int n = nums.size();
+
+        vector<vector<int>> dp(n + 2, vector<int>(k + 1, INT_MAX));
+
+        // k = 0 -> no more houses needed
+        for(int i = 0; i <= n + 1; i++) {
+            dp[i][0] = 0;
+        }
+
+        for(int idx = n - 1; idx >= 0; idx--) {
+
+            for(int houses = 1; houses <= k; houses++) {
+
+                // Don't steal
+                int dontSteal = dp[idx + 1][houses];
+
+                // Steal
+                int steal = max(
+                    nums[idx],
+                    dp[idx + 2][houses - 1]
+                );
+
+                dp[idx][houses] = min(dontSteal, steal);
+            }
+        }
+
+        return dp[0][k];
+    }
+};
+
+// Your current state is:
+// dp[idx][k]
+
+
+// and it depends on:
+
+// dp[idx + 1][k]
+// dp[idx + 2][k - 1]
+
+// So it naturally goes right → left.
