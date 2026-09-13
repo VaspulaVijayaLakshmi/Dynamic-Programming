@@ -1,0 +1,67 @@
+Tis is similar to print all LCS.
+Refer to that problem.
+
+then it is similar, instead of printing, just count.
+
+
+
+
+1. Build LCS length DP.
+2. Start from (n,m).
+3. If characters match → move diagonal.
+4. Otherwise:
+   - move up if up has the max LCS length
+   - move left if left has the max LCS length
+5. If i == 0 || j == 0 → return 1
+
+
+
+class Solution {
+public:
+    vector<vector<int>> dp;
+
+    int countLCS(string &s1, string &s2, int i, int j) {
+
+        if(i == 0 || j == 0)
+            return 1;
+
+        // Characters match → diagonal
+        if(s1[i-1] == s2[j-1]) {
+            return countLCS(s1, s2, i-1, j-1);
+        }
+
+        int count = 0;
+
+        // Move in the direction(s) having maximum LCS length
+        if(dp[i-1][j] >= dp[i][j-1]) {
+            count += countLCS(s1, s2, i-1, j);
+        }
+
+        if(dp[i][j-1] >= dp[i-1][j]) {
+            count += countLCS(s1, s2, i, j-1);
+        }
+
+        return count;
+    }
+
+    int numberOfLCS(string s1, string s2) {
+
+        int n = s1.size();
+        int m = s2.size();
+
+        // LCS length DP
+        dp.assign(n + 1, vector<int>(m + 1, 0));
+
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+
+                if(s1[i-1] == s2[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+
+        return countLCS(s1, s2, n, m);
+    }
+};
