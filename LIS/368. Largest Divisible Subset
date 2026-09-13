@@ -1,0 +1,84 @@
+// Similar to LIS, CHeck LIS first
+
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+
+        vector<int> dp(n, 1);
+        vector<int> parent(n, -1);
+
+        int last = 0;
+
+        for(int i = 0; i < n; i++) {
+            for(int prev = 0; prev < i; prev++) {
+
+                if(nums[i] % nums[prev] == 0 &&
+                   dp[prev] + 1 > dp[i]) {
+
+                    dp[i] = dp[prev] + 1;
+
+                    // prev is the element we picked before i
+                    parent[i] = prev;
+                }
+            }
+
+            if(dp[i] > dp[last])
+                last = i;
+        }
+
+       
+
+       // Reconstruct LIS
+        vector<int> ans;
+
+        while(last != -1) {
+            ans.push_back(nums[last]);
+            last = parent[last];
+        }
+
+        reverse(ans.begin(), ans.end());
+
+        return ans;
+        
+    }
+};
+
+
+//we have to build array
+//recusion not sure how we can do it.
+//we can use linear dp
+
+//similar to LIS
+
+
+//we need to find the prev number which was divisble by curr.
+//also sorting helps
+//becaue diivisibility is transitive
+
+//lets say a%b ==0 b%c=0 then a%c ==0
+
+//also if we sort let ssay
+
+// we have 2 , 4 ,8
+
+//instead of doinf 4 is fiivsble then 2 is diivsible
+//do 2-> bigger element -> then bigger eleent
+
+
+// This is like LIS onky, but we need to print vector, we need sttae where we came from
+
+
+// for (int curr = 0; curr < n; curr++) {
+
+//     dp[curr] = 1;
+
+//     for (int prev = curr - 1; prev >= 0; prev--) {
+
+//         if (nums[curr] % nums[prev] == 0) {
+//             dp[curr] = max(dp[curr], dp[prev] + 1);
+//         }
+//     }
+// }
