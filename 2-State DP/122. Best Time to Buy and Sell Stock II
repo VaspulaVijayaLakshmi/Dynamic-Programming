@@ -1,0 +1,99 @@
+class Solution {
+public:
+    vector<vector<int>> dp;
+    // int maxProfit(vector<int>& prices, bool buy,int idx){
+          
+    //     if(idx>=prices.size())
+    //        return 0;
+
+    //     if(dp[idx][buy] != -1) return dp[idx][buy]; 
+
+    //     //buy -> true
+    //     // I can buy, nothing to sell
+    //     // I can buy or skip
+    //     if(buy) {
+           
+    //        int b =  -prices[idx] + 
+    //                  maxProfit(prices,!buy,idx+1);
+
+    //        int nb = maxProfit(prices,buy,idx+1);
+
+    //        dp[idx][buy] = max(b,nb);
+
+    //     } 
+
+    //     //buy is false 
+    //     //I can sell or I can skip
+    //     else{
+
+    //        int b =  prices[idx] +
+    //         maxProfit(prices,!buy,idx+1);
+            
+    //         int nb = maxProfit(prices,buy,idx+1);
+
+    //         dp[idx][buy] = max(b,nb);
+    //     }
+  
+    //     return dp[idx][buy];         
+    // }
+
+
+    int maxProfit(vector<int>& prices) {
+        
+        bool buy = true;
+        int n=prices.size();
+        dp.resize(n, vector<int>(2, 0));
+
+        //0 col represent -> buy
+        //1 col repsent -> sell 
+
+        dp[0][0] = -prices[0];
+
+        //without buying something i cant sell
+        dp[0][1] =  0;
+
+        for(int i=1;i<n;i++){
+              
+              //i need to buy, or skip
+              dp[i][0] = max(dp[i-1][0] , 
+                           dp[i-1][1]-prices[i]);
+
+              //i need to sell or skip
+              dp[i][1] = max(
+                        dp[i-1][1],
+                        dp[i-1][0]+prices[i]
+              );
+        }
+
+        return max(dp[n-1][0],dp[n-1][1]);
+    }
+};
+
+
+// ok 2state DP is also intresting
+// its comes when we have 2 options like
+
+// Buy/dont buy -> it has 2 states -> true/false
+
+// also signs of a number lets say,
+// at each point we have +/- then 2 state DP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
