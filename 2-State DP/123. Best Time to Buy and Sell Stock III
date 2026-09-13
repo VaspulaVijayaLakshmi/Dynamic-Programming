@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int dp[100005][3][2];
+    int solve(vector<int>& prices, int i, int transactions, int buy) {
+
+        if(i == prices.size() || transactions == 0)
+            return 0;
+
+        if(dp[i][transactions][buy] != -1)
+            return dp[i][transactions][buy];
+
+        if(buy) {
+            return dp[i][transactions][buy] = max(
+                -prices[i] + solve(prices, i + 1, transactions, 0),
+                solve(prices, i + 1, transactions, 1)
+            );
+        }
+        else {
+            return dp[i][transactions][buy] = max(
+                prices[i] + solve(prices, i + 1, transactions - 1, 1),
+                solve(prices, i + 1, transactions, 0)
+            );
+        }
+    }
+
+    int maxProfit(vector<int>& prices) {
+
+        memset(dp, -1, sizeof(dp));
+
+        return solve(prices, 0, 2, 1);
+    }
+};
+
+// Atmost
+// 2 transactions
+
+// so its like K stops , lets say
+
+// If k is less than 1 or 2 I can pick up, 
+// that too i need to be in buy or sell state.
+
+// SO basically its like buy and sell 2 but i need to keep track of tranctions count
+
+//also Transaction completes when we buy and sell.
+// not just biying
+ 
+
+
+// We are allowed at most 2 transactions.
+
+// So:
+
+// transaction dimension → 3 possible values: 0, 1, 2
+// buy dimension          → 2 values: 0, 1
+
+// That's why:
+// dp[n][3][2]
+
+// Not because there are 3 transactions.
