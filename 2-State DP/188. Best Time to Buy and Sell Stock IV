@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<vector<int>>> dp;
+
+    int solve(vector<int>& prices, int i, int transactions, int buy) {
+
+        if(i == prices.size() || transactions == 0)
+            return 0;
+
+        if(dp[i][transactions][buy] != -1)
+            return dp[i][transactions][buy];
+
+        if(buy) {
+            return dp[i][transactions][buy] = max(
+                -prices[i] + solve(prices, i + 1, transactions, 0),
+                solve(prices, i + 1, transactions, 1)
+            );
+        }
+        else {
+            return dp[i][transactions][buy] = max(
+                prices[i] + solve(prices, i + 1, transactions - 1, 1),
+                solve(prices, i + 1, transactions, 0)
+            );
+        }
+    }
+
+    int maxProfit(int k, vector<int>& prices) {
+
+        int n = prices.size();
+
+        dp.resize(n, vector<vector<int>>(k + 1, vector<int>(2, -1)));
+
+        return solve(prices, 0, k, 1);
+    }
+};
