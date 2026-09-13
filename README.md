@@ -64,3 +64,38 @@ parent → whether the parent was robbed
 So the DP state is conceptually:
 
 dp[root][parent]
+
+
+________________________________________
+
+
+Think of it this way:
+
+1. First ask: what does my state depend on?
+
+If:
+
+dp[i] depends on dp[i-1]
+
+go left → right.
+
+Examples:
+
+House Robber
+LIS
+LCS
+Coin Change
+0/1 Knapsack
+
+
+Because you're using information from the past.
+
+2. If:
+dp[i] depends on dp[i+1] or dp[i+2]
+
+go right → left.
+
+Examples:
+
+House Robber (suffix formulation)
+Stock problems with future-state recursion
