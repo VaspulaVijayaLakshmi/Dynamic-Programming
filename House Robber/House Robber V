@@ -1,0 +1,81 @@
+class Solution {
+public:
+   vector<long long> dp;
+   long long rob(vector<int>& nums, vector<int>& colors, int i) {
+
+    if(i >= nums.size())
+        return 0;
+
+    if(dp[i]!=-1)
+     return dp[i];    
+
+    long long dontTake = rob(nums, colors, i + 1);
+
+    long long take;
+
+    if(i + 1 < nums.size() && colors[i] != colors[i + 1])
+        take = nums[i] + rob(nums, colors, i + 1);
+    
+    else
+        take = nums[i] + rob(nums, colors, i + 2);
+
+    return dp[i] = max(dontTake, take);
+}
+   
+    long long rob(vector<int>& nums, vector<int>& colors) {
+        
+        int n=colors.size();
+        dp.resize(n+2,-1);
+        return rob(nums,colors,0); 
+        
+    }
+};
+
+
+// Oh so we need to pass color prev color.
+// if they are adjacent also we can rob if they are diff colors.
+
+
+// Example 1
+// nums:   [5, 10, 20]
+// color:  [1,  2,  1]
+//          ↑      ↑
+
+// You can rob house 0 and house 1 because colors differ:
+
+// 1 != 2
+
+// You can also rob house 0 and house 2 because they aren't adjacent.
+
+
+
+________________________________________
+
+
+long long rob(vector<int>& nums, vector<int>& colors) {
+        
+        int n=colors.size();
+        dp.resize(n+2,0);
+
+        dp[0] =0;
+
+        for(int i=n-1;i>=0;i--){
+             
+            // Don't take
+            long long dontTake = dp[i + 1];
+
+            // Take
+            long long take;
+
+            if(i + 1 < n && colors[i] != colors[i + 1])
+                take = nums[i] + dp[i + 1];
+            else
+                take = nums[i] + dp[i + 2];
+
+            dp[i] = max(dontTake, take);
+
+        }
+
+        return dp[0];
+        
+    }
