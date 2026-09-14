@@ -85,3 +85,74 @@ public:
 // dp[idx + 2][k - 1]
 
 // So it naturally goes right → left.
+
+____________________________
+
+
+class Solution {
+public:
+
+        int isCapacityPossible(vector<int>& nums, int k, int capacity) {
+
+        int count = 0;
+
+        for(int i = 0; i < nums.size();) {
+
+            if(nums[i] <= capacity) {
+                count++;
+                i += 2;
+            }
+            else {
+                i++;
+            }
+
+            if(count >= k)
+                return 1;
+        }
+
+        return 0;
+    }
+
+
+    int minCapability(vector<int>& nums, int k) {
+
+      int n=nums.size();
+      int capacity=0;
+
+      for(int i=0;i<n;i++){
+        capacity = max(capacity,nums[i]);
+      }
+
+      int l=0,h=capacity;
+      int minCapacity=INT_MAX;
+
+      while(l<=h){
+
+          int mid = l + (h-l)/2;
+          
+          if(isCapacityPossible(nums,k,mid)){
+              minCapacity = mid;
+              h =mid-1;
+          }
+
+          else{
+             l=mid+1;
+          }
+
+      }
+
+      return minCapacity;
+        
+    }
+};
+
+
+// problem si stating maximum /minimum
+// minimum of max.
+
+// capability is max amount of money 
+
+// capability -> 0 to max amount in the arr of houses
+
+// but the houses should be atleast k
+// 0 to k houses.
