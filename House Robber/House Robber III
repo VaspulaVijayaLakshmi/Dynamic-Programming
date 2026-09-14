@@ -1,0 +1,68 @@
+
+class Solution {
+public:
+
+    //dp size we dont know and the nodes we have no idea so we use map
+
+    // what should dp represent?
+    //node,bool/parent taken or not right
+    //bool is bool -> true false, so vector of 2
+
+    unordered_map<TreeNode*,vector<int>> dp;
+   
+    //node -> 2 size vector
+    // parent -> true
+    // parent-> false
+
+    int robHelper(TreeNode* root,bool parent){
+
+        if(root==NULL)
+         return 0;
+
+        if(dp.find(root) ==dp.end()){
+            dp[root] = vector<int>(2,-1);
+        } 
+
+        if(dp[root][parent] !=-1)
+         return dp[root][parent];
+
+        //if i dont take parent, then I can take 2 children 
+        int donttake =   
+                   robHelper(root->left,false) +
+                   robHelper(root->right,false);
+
+        int take=0;
+        if(!parent){
+          take = root->val +
+                  robHelper(root->left,true) +
+                  robHelper(root->right,true);
+                     
+        }
+
+        return dp[root][parent] = max(donttake,take); 
+
+    } 
+
+
+    int rob(TreeNode* root) {        
+        return robHelper(root,false);
+        
+    }
+};
+
+
+
+//at each point we have  2 options take or dont take.
+
+
+//if i take parent i cant take children for sure
+//if i skip parent also, i can decide whether or not to take children.upto us.
+
+//how to know if we took parent should we pass, true or false?
+
+//recursion done
+
+//now focus on dp
+//dp do we take vector or what
+//we can take root -> max amount so far right
+//but values are repeatable.
