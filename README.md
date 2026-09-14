@@ -1,32 +1,12 @@
 
-https://www.youtube.com/watch?v=SxykjoG1NHU&list=PLiF6lAo--At1-wfJi5qwVxqwAsSEOkDMK&index=25
-
-
-https://algo.monster/problems/dynamic_programming_intro
-
-
-
-
-
 # Dynamic-Programming
 LC, CODEWITHMIK, TUF
 
+https://www.youtube.com/watch?v=SxykjoG1NHU&list=PLiF6lAo--At1-wfJi5qwVxqwAsSEOkDMK&index=25
 
-Dp probem with true/ false scenarios
-
-*IMP
-122. Best Time to Buy and Sell Stock II
-
-
+https://algo.monster/problems/dynamic_programming_intro
 
 https://leetcode.com/problems/minimum-cost-to-cut-a-stick/solutions/780880/dp-with-picture-burst-balloons/
-
-
-
-1547. Minimum Cost to Cut a Stick
-312. Burst Balloons
-1000. Minimum Cost to Merge Stones
-1039. Minimum Score Triangulation of Polygon
 
 
 there are certain prblms  which may seem like dp:
@@ -88,6 +68,7 @@ Coin Change
 0/1 Knapsack
 
 
+
 Because you're using information from the past.
 
 2. If:
@@ -99,3 +80,34 @@ Examples:
 
 House Robber (suffix formulation)
 Stock problems with future-state recursion
+
+
+___________________________________
+
+Series 
+
+Jump Game
+
+Jump Game → greedy reachability
+Jump Game II → minimum jumps
+Jump Game III → graph/BFS/DFS flavor
+Jump Game VII → DP + sliding window
+
+House Robber
+
+Robber I → 1D DP
+Robber II → circular DP
+Robber III → tree DP
+Variants → state transition recognition
+
+Stock
+
+Stock I → simple greedy
+Stock II → unlimited transactions
+Stock III/IV → transaction-state DP
+Cooldown → state DP
+Fee → state DP
+
+Gas Station
+
+Basic → greedy
