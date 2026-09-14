@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool canReach(vector<int>& arr, int start) {
+
+        if(arr[start] == 0)
+         return true;
+       
+       int n=arr.size();
+
+       queue<int> q;
+       q.push(start);
+
+       vector<bool> vis(n,false);
+       vis[start] = true;
+
+       while(!q.empty()){
+
+           int curr = q.front();
+           q.pop();
+
+           if(arr[curr] == 0)
+              return true;
+       
+           int left = curr - arr[curr];
+           int right = curr + arr[curr]; 
+           
+           if(left>=0 && !vis[left]){
+                q.push(left);
+                vis[left]=true;
+           }
+
+           if(right<n && !vis[right]){
+                q.push(right);
+                vis[right]=true;
+           }
+       }
+
+
+
+       return false;
+        
+    }
+};
+
+
+// ??BFS , also if you do pick , check if we need visited or not, in this case, we need visited
