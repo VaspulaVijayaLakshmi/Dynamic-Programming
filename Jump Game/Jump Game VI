@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> dp;
+
+    int solve(vector<int>& nums, int k, int i) {
+
+        if(i == nums.size() - 1)
+            return nums[i];
+
+        if(dp[i] != INT_MIN)
+            return dp[i];
+
+        int best = INT_MIN;
+
+        for(int j = i + 1; j <= min((int)nums.size() - 1, i + k); j++) {
+
+            best = max(best, solve(nums, k, j));
+        }
+
+        return dp[i] = nums[i] + best;
+    }
+
+    int maxResult(vector<int>& nums, int k) {
+
+        int n = nums.size();
+        dp.resize(n, INT_MIN);
+        return solve(nums, k, 0);
+    }
+};
+
+
+// maximum score.
+// so i can do recursion/dp right.
+
