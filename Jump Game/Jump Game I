@@ -1,1 +1,18 @@
 
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+
+        int stepsNeeded = 0;
+
+        for(int i = nums.size() - 2; i >= 0; i--) {
+
+            stepsNeeded++;
+
+            if(nums[i] >= stepsNeeded)
+                stepsNeeded = 0;
+        }
+
+        return stepsNeeded == 0;
+    }
+};
